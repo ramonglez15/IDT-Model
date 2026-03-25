@@ -210,10 +210,11 @@ physical time, peaks at $\zc$ by construction, and decays to zero at
 both low and high redshift, ensuring that the domain contribution is 
 transient.
 
-Each domain is specified by three parameters: the peak fractional energy 
-density $\fdom$, the critical redshift $\zc$, and the logarithmic width 
-$\sln = \Delta_z/(1+\zc)$, where $\Delta_z$ is the width in redshift 
-space.
+Each domain is specified by three parameters: the peak fractional energy
+density $\fdom$, the critical redshift $\zc$, and the logarithmic width
+$\sln = \Delta_z/(1+\zc)$, where $\Delta_z$ is the width in redshift
+space. Figure~\ref{fig:profiles} shows the energy density profiles for
+the two-domain configuration used in this work.
 
 \subsection{Conservation}
 
@@ -292,12 +293,44 @@ negligible cross-contamination at the level of current observational
 precision. This independence is a structural consequence of the 
 epoch-separation, not a result of parameter tuning.
 
-For the minimal model presented in this work, we fix the epoch and 
-width parameters from physical motivation ($\zc^{\rm early} = 2000$, 
-$\sln^{\rm early} = 0.15$; $\zc^{\rm late} = 1.0$, $\sln^{\rm late} 
-= 0.5$) and allow only the amplitudes $\fdom^{\rm early}$ and 
-$\fdom^{\rm late}$ to vary. This yields a two-parameter extension 
+For the minimal model presented in this work, we fix the epoch and
+width parameters from physical motivation ($\zc^{\rm early} = 2000$,
+$\sln^{\rm early} = 0.18$; $\zc^{\rm late} = 1.0$, $\sln^{\rm late}
+= 0.5$) and allow only the amplitudes $\fdom^{\rm early}$ and
+$\fdom^{\rm late}$ to vary. This yields a two-parameter extension
 of $\Lambda$CDM.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig1_domain_profiles.pdf}
+\caption{Energy density profiles for the two-domain IDT configuration.
+\emph{Left}: Early domain ($\zc = 2000$, $\sln = 0.18$) peaking during
+the pre-recombination era; the dashed line marks the drag epoch
+$z_{\rm drag} \approx 1060$. \emph{Right}: Late domain ($\zc = 1.0$,
+$\sln = 0.5$) active during structure formation.}
+\label{fig:profiles}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig2_equation_of_state.pdf}
+\caption{Derived equation of state $w(z)$ for both domains.
+Conservation requires $w(\zc) = -1$ exactly. The shaded regions
+indicate quintessence-like ($w > -1$, rising side) and phantom-like
+($w < -1$, falling side) behavior. The phantom crossing is expected
+for peaked effective profiles and does not imply ghost instabilities.}
+\label{fig:wz}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig3_Hz_deviation.pdf}
+\caption{Fractional deviation of $H(z)$ from $\Lambda$CDM for the
+early domain alone (blue), late domain alone (red), and both combined
+(black dashed). The two domains operate at well-separated epochs with
+negligible overlap.}
+\label{fig:Hz}
+\end{figure}
 
 
 % =====================================================================
@@ -368,9 +401,10 @@ with
 \label{eq:eta}
 \end{equation}
 
-The parameter $\eta_0$ characterizes the strength of the dephasing 
-effect. Its sign has a physical interpretation: $\eta_0 < 0$ 
-corresponds to effective screening, in which the external domain's 
+The parameter $\eta_0$ characterizes the strength of the dephasing
+effect (see Figure~\ref{fig:Geff} for the coupling function
+$\Gamma(z)$ and the resulting $\Geff(z)/G$). Its sign has a physical
+interpretation: $\eta_0 < 0$ corresponds to effective screening, in which the external domain's 
 gravity contributes to background expansion but does not enhance the 
 self-gravity driving matter collapse. This is the physically expected 
 regime: an external smooth component adds to the mean curvature without 
@@ -431,10 +465,37 @@ energy equation of state but provide no independent growth channel;
 the effect on $\sigma_8$ is entirely determined by the distance 
 constraints.
 
-IDT introduces epoch-localized $\Geff$ modifications motivated by the 
-physical premise of external domain interactions---a qualitatively 
-distinct mechanism that, to our knowledge, has not been explored in the 
+IDT introduces epoch-localized $\Geff$ modifications motivated by the
+physical premise of external domain interactions---a qualitatively
+distinct mechanism that, to our knowledge, has not been explored in the
 cosmological literature.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig8_dephasing_gamma.pdf}
+\caption{\emph{Left}: The dephasing coupling function $\Gamma(z)$ for
+the late domain ($\zc = 1.0$, $\sln = 0.5$). $\Gamma > 0$ on the
+rising side (arriving domain) and $\Gamma < 0$ on the falling side.
+\emph{Right}: The resulting effective gravitational coupling
+$\Geff(z)/G = 1 + \eta_0\,\Gamma(z)$ for $\eta_0 = -0.05$. Growth
+is suppressed (blue shading) at $z \gtrsim 1$ and modestly enhanced
+(red shading) at $z \lesssim 1$, with a net suppression weighted
+toward earlier times when growth is most active.}
+\label{fig:Geff}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\columnwidth]{figures/fig4_channel_decomposition.pdf}
+\caption{Channel decomposition of the late domain's growth suppression
+in the standalone growth equation solver. The background channel
+($H(z)$ modification) contributes $43\%$ and the dephasing channel
+($\Geff$ modification) contributes $57\%$ of the total
+$|\Delta\sigma_8/\sigma_8| = 3.8\%$ effect. The dephasing channel
+represents the novel IDT contribution that is independent of distance
+observables.}
+\label{fig:channels}
+\end{figure}
 
 
 % =====================================================================
@@ -631,10 +692,20 @@ $-0.10$ & 0.791 & 0.804 & $-17.8$ \\
 \end{table}
 
 The result does not depend sensitively on the precise value of
-$\eta_0$: $\dAIC < -6$ for any $\eta_0 \in [-0.10, -0.01]$. This
-is a consequence of the fact that the dominant contribution to $\dchi$
-comes from the acoustic scale improvement (early domain), which is
-independent of $\eta_0$.
+$\eta_0$: $\dAIC < -6$ for any $\eta_0 \in [-0.10, -0.01]$
+(Figure~\ref{fig:eta_robust}). This is a consequence of the fact
+that the dominant contribution to $\dchi$ comes from the acoustic
+scale improvement (early domain), which is independent of $\eta_0$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig5_eta_robustness.pdf}
+\caption{\emph{Left}: $\dAIC$ as a function of $|\eta_0|$. The model
+is preferred over $\Lambda$CDM ($\dAIC < 0$) across the full tested
+range. \emph{Right}: $\sigma_8$ decreases monotonically with
+$|\eta_0|$, confirming the directional suppression.}
+\label{fig:eta_robust}
+\end{figure}
 
 \subsubsection{Early domain amplitude}
 
@@ -662,10 +733,23 @@ $\fdom^{\rm early}$ & $H_0$ & $\sigma_8$ & $l_a\;(\sigma)$ & $\dAIC$ \\
 \end{table}
 
 $\dAIC < -8$ for $\fdom^{\rm early} \in [0.02, 0.06]$, with a
-clear optimum at $\fdom^{\rm early} \approx 0.03$--$0.04$. The
-amplitude is constrained by the acoustic scale: too small an
-amplitude fails to correct $l_a$, while too large an amplitude
-overshoots and worsens other constraints.
+clear optimum at $\fdom^{\rm early} \approx 0.03$--$0.04$
+(Figure~\ref{fig:fearly_robust}). The amplitude is constrained by
+the acoustic scale: too small an amplitude fails to correct $l_a$,
+while too large an amplitude overshoots and worsens other
+constraints.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig6_fearly_robustness.pdf}
+\caption{\emph{Top}: $\dAIC$ as a function of early domain amplitude,
+with $H_0$ optimized for each value. The sweet spot at $\fdom \approx
+0.03$--$0.04$ is determined by the acoustic scale constraint.
+\emph{Bottom}: $H_0$ (blue) and $\sigma_8$ (orange) as functions
+of $\fdom^{\rm early}$, showing the modest H$_0$ improvement and
+$\sigma_8$ stability across the viable range.}
+\label{fig:fearly_robust}
+\end{figure}
 
 Notably, even $\fdom^{\rm early} = 0$ (no early domain) yields
 $\dAIC = -4.3$, indicating that the dephasing mechanism alone is
@@ -738,9 +822,21 @@ additively without measurable interference.
 \end{itemize}
 
 This independence is a structural consequence of the
-epoch-separation: the early domain ($z \sim 2000$) has decayed
-to negligible amplitude before the late domain ($z \sim 1$) becomes
-active. It is not a result of parameter tuning.
+epoch-separation (Figure~\ref{fig:independence}): the early domain
+($z \sim 2000$) has decayed to negligible amplitude before the late
+domain ($z \sim 1$) becomes active. It is not a result of parameter
+tuning.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig7_channel_independence.pdf}
+\caption{Channel independence verification. \emph{Left}: Sound horizon
+$r_d$ is shifted by the early domain and unaffected by the late domain.
+\emph{Right}: $\sigma_8$ (with dephasing) is reduced by the late domain
+and unaffected by the early domain. The effects combine additively
+when both domains are active.}
+\label{fig:independence}
+\end{figure}
 
 
 % =====================================================================
@@ -966,7 +1062,85 @@ testable by next-generation CMB, BAO, and weak lensing surveys.
 
 
 % =====================================================================
-% REFERENCES (placeholder — replace with .bib file)
+% APPENDICES
+% =====================================================================
+\appendix
+
+\section{Conservation proof}
+\label{app:conservation}
+
+For the log-normal profile [Eq.~\eqref{eq:profile}]:
+\begin{equation}
+\ln\Odom = \ln\Omega_{\rm peak} - \frac{1}{2\sln^2}
+\left[\ln\!\left(\frac{1+z}{1+\zc}\right)\right]^2.
+\end{equation}
+Taking the derivative with respect to $\ln(1+z)$:
+\begin{equation}
+\frac{d\ln\Odom}{d\ln(1+z)} = -\frac{1}{\sln^2}
+\ln\!\left(\frac{1+z}{1+\zc}\right).
+\end{equation}
+Substituting into the conservation-derived equation of state
+[Eq.~\eqref{eq:wderived}]:
+\begin{equation}
+w(z) = -1 + \frac{1}{3}\left[-\frac{1}{\sln^2}
+\ln\!\left(\frac{1+z}{1+\zc}\right)\right].
+\end{equation}
+The continuity equation [Eq.~\eqref{eq:continuity}] is then
+satisfied identically for all $z$, since $w(z)$ was constructed
+from it. This is verified numerically: computing $d\rho/dz$ via
+finite differences and comparing with $3(1+w)/(1+z)\cdot\rho$
+yields agreement to $< 5 \times 10^{-6}$ relative error across
+$z \in [0.1, 10{,}000]$, limited by spline interpolation precision.
+
+
+\section{CLASS modification details}
+\label{app:class}
+
+The IDT implementation modifies three CLASS source files:
+
+\paragraph{\texttt{include/background.h}.}
+Adds the structure members: \texttt{f\_dom\_idt[5]},
+\texttt{z\_c\_idt[5]}, \texttt{sigma\_ln\_idt[5]},
+\texttt{Omega\_peak\_idt[5]} (supporting up to five domains);
+\texttt{eta0\_idt} and \texttt{idt\_dephasing\_domain} for the
+dephasing coupling; background vector indices
+\texttt{index\_bg\_rho\_idt}, \texttt{index\_bg\_w\_idt},
+\texttt{index\_bg\_Gamma\_idt}; and the flag \texttt{has\_idt}.
+
+\paragraph{\texttt{source/background.c}.}
+In \texttt{background\_functions()}, the domain energy density is
+computed analytically (no ODE integration):
+\begin{verbatim}
+rho_i = Omega_peak * H0^2
+  * exp(-0.5 * ln_ratio^2 / sigma2);
+\end{verbatim}
+The derived $w$ is clamped to $-1$ when $\rho_{\rm dom} <
+10^{-30}\rho_{\rm tot}$. The dephasing function $\Gamma(z)$
+is computed and stored in the background vector.
+
+\paragraph{\texttt{source/perturbations.c}.}
+After all species contributions to the total perturbed
+stress-energy (\texttt{delta\_rho}, \texttt{rho\_plus\_p\_theta},
+\texttt{delta\_p}) are accumulated, they are multiplied by
+$\Geff/G = 1 + \eta_0\,\Gamma(z)$ before the Einstein equations
+use them to compute metric perturbations. This placement ensures
+the modification is applied consistently to all perturbation
+channels.
+
+\paragraph{\texttt{source/input.c}.}
+Reads the parameters \texttt{f\_dom\_idt\_1} through
+\texttt{f\_dom\_idt\_5}, \texttt{z\_c\_idt\_N},
+\texttt{sigma\_ln\_idt\_N}, \texttt{eta0\_idt}, and
+\texttt{idt\_dephasing\_domain} from the \texttt{.ini} file.
+$\Omega_{\rm peak}$ is computed from $\fdom$ and
+$E^2_{\Lambda{\rm CDM}}(\zc)$ at initialization.
+
+The code is publicly available at
+\url{https://github.com/ramonglez15/IDT-Model}.
+
+
+% =====================================================================
+% REFERENCES
 % =====================================================================
 \begin{thebibliography}{99}
 
@@ -1036,8 +1210,8 @@ D.~Blas, J.~Lesgourgues, and T.~Tram,
 
 \bibitem{Efstathiou2019}
 G.~Efstathiou and S.~Gratton,
-``The Einstein Telescope: a third-generation gravitational wave observatory,''
-\emph{Mon.\ Not.\ Roy.\ Astron.\ Soc.}\ \textbf{496}, L91 (2020).
+``A detailed description of the CamSpec likelihood pipeline and a reanalysis of the Planck high frequency maps,''
+arXiv:1910.00483 (2019).
 
 \bibitem{Beutler2011}
 F.~Beutler \emph{et al.},
