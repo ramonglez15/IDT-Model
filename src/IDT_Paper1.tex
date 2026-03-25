@@ -26,7 +26,7 @@
 
 \title{Epoch-Localized Domain Interactions: A Two-Channel Approach to Cosmological Tensions in \LCDM}
 
-\author{Jose Gonzalez}
+\author{Jose Ramon Gonzalez}
 \affiliation{Independent Researcher}
 
 \date{\today}
@@ -435,8 +435,9 @@ The effective coupling $\Geff < G$ during domain activity partially
 offsets the growth enhancement induced by the modified expansion 
 history. This channel operates through the gravitational source term in 
 Eq.~\eqref{eq:growth_modified} and is independent of distance 
-observables. It represents the novel IDT prediction: a growth 
-modification pathway that BAO and supernovae do not constrain.
+observables. It represents a novel growth modification pathway,
+motivated by IDT domain physics, that BAO and supernovae do not
+constrain.
 
 In the standalone growth equation solver, the dephasing channel 
 contributes approximately $57\%$ of the total growth modification, with 
@@ -446,9 +447,53 @@ the dephasing operates at approximately $60\%$ of the standalone
 efficiency, consistent with partial absorption through coupled 
 perturbation channels.
 
+\subsection{Effective field interpretation of domain overlap}
+
+The dephasing coupling $\eta_0$ is introduced as a phenomenological
+parameter, but its structure is motivated by a specific physical
+picture rather than arbitrary parameterization.
+
+Consider two spacetime regions expanding at different rates that
+overlap gravitationally. The total gravitational potential at any
+point in our universe receives contributions from both our matter
+and the external domain. As long as the overlap is static, the
+external contribution is indistinguishable from additional smooth
+energy density---this is the Candidate~1 (background-only) regime,
+already captured by the Friedmann equation.
+
+When the overlap is \emph{time-dependent}---as it must be if the
+external domain expands at a different rate---the external
+gravitational potential $\Phi_{\rm ext}$ changes on cosmological
+timescales. A weakening $\Phi_{\rm ext}$ (from a domain that is
+fading or separating) reduces the effective depth of the potential
+wells in which our matter collapses. This is not equivalent to
+simply reducing the matter density; it modifies the relationship
+between the expansion rate (set by total energy) and the
+clustering rate (set by the effective gravitational source
+strength).
+
+The coupling function $\eta(z) = \eta_0\,\rho_{\rm dom}/
+\rho_{\rm dom,peak}$ encodes the simplest realization of this
+picture: the modification is proportional to the domain's
+presence (zero when the domain is absent) and parameterized by a
+single coupling strength $\eta_0$. The sign $\eta_0 < 0$
+corresponds to the physically expected regime in which a fading
+external overlap weakens effective self-gravity.
+
+We emphasize that this interpretation motivates the functional
+form of $\eta(z)$ but does not constitute a first-principles
+derivation. A complete derivation would require specifying the
+overlap geometry and solving for the effective metric in the
+overlap region---a task deferred to future work. The present
+analysis demonstrates that the \emph{observable consequences} of
+this picture are consistent with current data and preferred over
+$\Lambda$CDM, establishing the empirical viability of the
+mechanism.
+
+
 \subsection{Comparison to existing frameworks}
 
-The effective Friedmann-Poisson decoupling distinguishes IDT from 
+The effective Friedmann-Poisson decoupling distinguishes IDT from
 other extensions of $\Lambda$CDM:
 
 \emph{Early Dark Energy} employs a single scalar field whose energy 
@@ -826,6 +871,31 @@ epoch-separation (Figure~\ref{fig:independence}): the early domain
 ($z \sim 2000$) has decayed to negligible amplitude before the late
 domain ($z \sim 1$) becomes active. It is not a result of parameter
 tuning.
+
+\subsection{Robustness summary}
+
+The model preference over $\Lambda$CDM is robust across three
+independent axes of variation:
+
+\begin{enumerate}
+\item \textbf{Dephasing coupling}: $\dAIC < -6$ for all
+$\eta_0 \in [-0.10, -0.01]$ (Table~\ref{tab:eta_robust}). The
+result does not require precise knowledge of the coupling strength.
+
+\item \textbf{Early domain amplitude}: $\dAIC < -8$ for
+$\fdom^{\rm early} \in [0.02, 0.06]$ (Table~\ref{tab:fearly_robust}).
+The data select a preferred amplitude near $\fdom \approx
+0.03$--$0.04$, constrained by the acoustic scale.
+
+\item \textbf{MCMC initialization}: Four independent chains with
+different random seeds converge to $\dAIC \in [-12.5, -10.5]$
+(Table~\ref{tab:seeds}), confirming that the result is not an
+artifact of chain initialization or stochastic fluctuation.
+\end{enumerate}
+
+This three-axis stability distinguishes the IDT result from models
+whose statistical preference depends sensitively on specific
+parameter choices or sampler configurations.
 
 \begin{figure}[t]
 \centering
