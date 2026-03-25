@@ -1,7 +1,7 @@
 # IDT Research Steering Memo
 
-**Date**: 2026-03-24 (updated after localized domain implementation)
-**Status**: Two-domain architecture validated. H₀ up + σ₈ down achieved simultaneously. MCMC with localized domain next.
+**Date**: 2026-03-25 (updated after dephasing MCMC)
+**Status**: ΔAIC = -12.5 vs ΛCDM. Two-domain IDT with dephasing G_eff is very strongly preferred. Paper-ready result.
 
 ---
 
@@ -26,7 +26,8 @@
 | ΛCDM | 67.4 | 0.811 | 0 | baseline |
 | Single domain CPL (MCMC) | 69.9 | 0.854 | -29.6 | σ₈ wrong direction |
 | Multi-proxy N_ur+CPL (MCMC) | 71.7 | 0.883 | -39.9 | σ₈ wrong (N_ur artifact) |
-| **Two-domain localized (fixed cosmo)** | **68-69** | **0.785-0.794** | **not yet fitted** | **H₀ up + σ₈ down** |
+| Two-domain localized (fixed cosmo) | 68-69 | 0.785-0.794 | not yet fitted | H₀ up + σ₈ down |
+| **IDT dephasing MCMC (all constraints)** | **68.4** | **0.809** | **-16.5 (ΔAIC=-12.5)** | **Paper result** |
 
 ## C. What the localized domain scans revealed
 
