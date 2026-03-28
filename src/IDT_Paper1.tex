@@ -216,6 +216,17 @@ $\sln = \Delta_z/(1+\zc)$, where $\Delta_z$ is the width in redshift
 space. Figure~\ref{fig:profiles} shows the energy density profiles for
 the two-domain configuration used in this work.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig1_domain_profiles.pdf}
+\caption{Energy density profiles for the two-domain IDT configuration.
+\emph{Left}: Early domain ($\zc = 2000$, $\sln = 0.18$) peaking during
+the pre-recombination era; the dashed line marks the drag epoch
+$z_{\rm drag} \approx 1060$. \emph{Right}: Late domain ($\zc = 1.0$,
+$\sln = 0.5$) active during structure formation.}
+\label{fig:profiles}
+\end{figure}
+
 \subsection{Conservation}
 
 A central design choice is that the equation of state $w(z)$ is 
@@ -257,8 +268,19 @@ perturbative stability regardless of the value of $w(z)$.
 Conservation is satisfied analytically by construction. We have verified 
 this numerically, finding agreement between the analytical $w(z)$ 
 and the numerically differentiated $\rho(z)$ to better than $5 \times 
-10^{-6}$ relative error across the full redshift range $z \in [0, 
+10^{-6}$ relative error across the full redshift range $z \in [0,
 10{,}000]$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig2_equation_of_state.pdf}
+\caption{Derived equation of state $w(z)$ for both domains.
+Conservation requires $w(\zc) = -1$ exactly. The shaded regions
+indicate quintessence-like ($w > -1$, rising side) and phantom-like
+($w < -1$, falling side) behavior. The phantom crossing is expected
+for peaked effective profiles and does not imply ghost instabilities.}
+\label{fig:wz}
+\end{figure}
 
 \subsection{Two-domain architecture}
 
@@ -299,39 +321,6 @@ $\sln^{\rm early} = 0.18$; $\zc^{\rm late} = 1.0$, $\sln^{\rm late}
 = 0.5$) and allow only the amplitudes $\fdom^{\rm early}$ and
 $\fdom^{\rm late}$ to vary. This yields a two-parameter extension
 of $\Lambda$CDM.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig1_domain_profiles.pdf}
-\caption{Energy density profiles for the two-domain IDT configuration.
-\emph{Left}: Early domain ($\zc = 2000$, $\sln = 0.18$) peaking during
-the pre-recombination era; the dashed line marks the drag epoch
-$z_{\rm drag} \approx 1060$. \emph{Right}: Late domain ($\zc = 1.0$,
-$\sln = 0.5$) active during structure formation.}
-\label{fig:profiles}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig2_equation_of_state.pdf}
-\caption{Derived equation of state $w(z)$ for both domains.
-Conservation requires $w(\zc) = -1$ exactly. The shaded regions
-indicate quintessence-like ($w > -1$, rising side) and phantom-like
-($w < -1$, falling side) behavior. The phantom crossing is expected
-for peaked effective profiles and does not imply ghost instabilities.}
-\label{fig:wz}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig3_Hz_deviation.pdf}
-\caption{Fractional deviation of $H(z)$ from $\Lambda$CDM for the
-early domain alone (blue), late domain alone (red), and both combined
-(black dashed). The two domains operate at well-separated epochs with
-negligible overlap.}
-\label{fig:Hz}
-\end{figure}
-
 
 % =====================================================================
 % SECTION 3: EFFECTIVE FRIEDMANN-POISSON DECOUPLING
@@ -375,6 +364,17 @@ universe.
 This results in an effective decoupling between background expansion 
 dynamics and perturbation-level clustering dynamics: a degree of freedom 
 not present in standard single-fluid extensions of $\Lambda$CDM.
+Figure~\ref{fig:Hz} illustrates the fractional deviation of $H(z)$ from $\Lambda$CDM for each domain configuration.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig3_Hz_deviation.pdf}
+\caption{Fractional deviation of $H(z)$ from $\Lambda$CDM for the
+early domain alone (blue), late domain alone (red), and both combined
+(black dashed). The two domains operate at well-separated epochs with
+negligible overlap.}
+\label{fig:Hz}
+\end{figure}
 
 \subsection{Derivation of the effective gravitational coupling}
 
@@ -429,6 +429,20 @@ by current data. For the
 fiducial value $\eta_0 = -0.05$---a natural $\mathcal{O}(0.1)$ 
 coupling---the modification is small but observationally consequential.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig8_dephasing_gamma.pdf}
+\caption{\emph{Left}: The dephasing coupling function $\Gamma(z)$ for
+the late domain ($\zc = 1.0$, $\sln = 0.5$). $\Gamma > 0$ on the
+rising side (arriving domain) and $\Gamma < 0$ on the falling side.
+\emph{Right}: The resulting effective gravitational coupling
+$\Geff(z)/G = 1 + \eta_0\,\Gamma(z)$ for $\eta_0 = -0.05$. Growth
+is suppressed (blue shading) at $z \gtrsim 1$ and modestly enhanced
+(red shading) at $z \lesssim 1$, with a net suppression weighted
+toward earlier times when growth is most active.}
+\label{fig:Geff}
+\end{figure}
+
 \subsection{Channel decomposition}
 
 The late domain modifies the growth of structure through two distinct 
@@ -459,6 +473,19 @@ self-consistently in the full Boltzmann solver (Section~\ref{sec:results}),
 the dephasing operates at approximately $60\%$ of the standalone 
 efficiency, consistent with partial absorption through coupled 
 perturbation channels.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\columnwidth]{figures/fig4_channel_decomposition.pdf}
+\caption{Channel decomposition of the late domain's growth suppression
+in the standalone growth equation solver. The background channel
+($H(z)$ modification) contributes $43\%$ and the dephasing channel
+($\Geff$ modification) contributes $57\%$ of the total
+$|\Delta\sigma_8/\sigma_8| = 3.8\%$ effect. The dephasing channel
+represents the novel IDT contribution that is independent of distance
+observables.}
+\label{fig:channels}
+\end{figure}
 
 \subsection{Effective field interpretation of domain overlap}
 
@@ -528,34 +555,6 @@ physical premise of external domain interactions. To our knowledge,
 this combination of epoch-localized background contributions and
 independent growth modification within a minimal parameterization
 has not been extensively explored in the cosmological literature.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig8_dephasing_gamma.pdf}
-\caption{\emph{Left}: The dephasing coupling function $\Gamma(z)$ for
-the late domain ($\zc = 1.0$, $\sln = 0.5$). $\Gamma > 0$ on the
-rising side (arriving domain) and $\Gamma < 0$ on the falling side.
-\emph{Right}: The resulting effective gravitational coupling
-$\Geff(z)/G = 1 + \eta_0\,\Gamma(z)$ for $\eta_0 = -0.05$. Growth
-is suppressed (blue shading) at $z \gtrsim 1$ and modestly enhanced
-(red shading) at $z \lesssim 1$, with a net suppression weighted
-toward earlier times when growth is most active.}
-\label{fig:Geff}
-\end{figure}
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.8\columnwidth]{figures/fig4_channel_decomposition.pdf}
-\caption{Channel decomposition of the late domain's growth suppression
-in the standalone growth equation solver. The background channel
-($H(z)$ modification) contributes $43\%$ and the dephasing channel
-($\Geff$ modification) contributes $57\%$ of the total
-$|\Delta\sigma_8/\sigma_8| = 3.8\%$ effect. The dephasing channel
-represents the novel IDT contribution that is independent of distance
-observables.}
-\label{fig:channels}
-\end{figure}
-
 
 % =====================================================================
 % SECTION 4: IMPLEMENTATION AND DATA
@@ -886,6 +885,17 @@ epoch-separation (Figure~\ref{fig:independence}): the early domain
 domain ($z \sim 1$) becomes active. It is not a result of parameter
 tuning.
 
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig7_channel_independence.pdf}
+\caption{Channel independence verification. \emph{Left}: Sound horizon
+$r_d$ is shifted by the early domain and unaffected by the late domain.
+\emph{Right}: $\sigma_8$ (with dephasing) is reduced by the late domain
+and unaffected by the early domain. The effects combine additively
+when both domains are active.}
+\label{fig:independence}
+\end{figure}
+
 \subsection{Robustness summary}
 
 The model preference over $\Lambda$CDM is robust across three
@@ -910,18 +920,6 @@ artifact of chain initialization or stochastic fluctuation.
 This three-axis stability distinguishes the IDT result from models
 whose statistical preference depends sensitively on specific
 parameter choices or sampler configurations.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{figures/fig7_channel_independence.pdf}
-\caption{Channel independence verification. \emph{Left}: Sound horizon
-$r_d$ is shifted by the early domain and unaffected by the late domain.
-\emph{Right}: $\sigma_8$ (with dephasing) is reduced by the late domain
-and unaffected by the early domain. The effects combine additively
-when both domains are active.}
-\label{fig:independence}
-\end{figure}
-
 
 % =====================================================================
 % SECTION 6: DISCUSSION
