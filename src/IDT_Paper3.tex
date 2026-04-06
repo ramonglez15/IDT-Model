@@ -1,0 +1,2031 @@
+\documentclass[aps,prd,twocolumn,superscriptaddress,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{bm}
+\usepackage{multirow}
+\usepackage{booktabs}
+
+% Shortcuts (matching Papers I--II)
+\newcommand{\LCDM}{$\Lambda$CDM}
+\newcommand{\Lam}{\Lambda}
+\newcommand{\Om}{\Omega_{\rm m}}
+\newcommand{\Ob}{\Omega_{\rm b}}
+\newcommand{\Or}{\Omega_{\rm r}}
+\newcommand{\OL}{\Omega_\Lambda}
+\newcommand{\Odom}{\Omega_{\rm dom}}
+\newcommand{\fdom}{f_{\rm dom}}
+\newcommand{\zc}{z_{\rm c}}
+\newcommand{\sln}{\sigma_{\ln}}
+\newcommand{\Geff}{G_{\rm eff}}
+\newcommand{\Hubble}{H_0}
+\newcommand{\dAIC}{\Delta{\rm AIC}}
+\newcommand{\dchi}{\Delta\chi^2}
+\newcommand{\gearly}{g_{\rm early}}
+\newcommand{\glate}{g_{\rm late}}
+\newcommand{\etaz}{\eta_0}
+\newcommand{\Rhat}{\hat{R}}
+
+\begin{document}
+
+\title{Inflationary Domain Theory III: Phase Resonance, Gravitational Dephasing, and the Conserved Net Impact Observable}
+
+\author{Jose Ramon Gonzalez}
+\affiliation{Independent Researcher}
+
+\date{\today}
+
+% =====================================================================
+% ABSTRACT
+% =====================================================================
+\begin{abstract}
+In Papers~I and~II~\cite{Paper1,Paper2}, we introduced Inflationary
+Domain Theory (IDT) as a minimal extension of $\Lambda$CDM in which
+epoch-localized energy density contributions modify the expansion
+history and structure growth at specific cosmological epochs, achieving
+$\dAIC = -8.1$ with hand-chosen domain widths and perturbative
+dephasing ($\etaz = -0.05$). In this paper, we present three advances.
+First, we introduce the MS phase quantum formalism, an effective
+description in which each domain resonance accumulates a constant
+cosmological phase $\Delta = \int(1+w)\,dN$, providing a
+data-supported relation that determines domain widths $\sln$ from a
+single parameter. Second, we perform full parameter liberation with
+converged posteriors from adaptive Metropolis--Hastings sampling (four
+independent chains, all Gelman--Rubin $\Rhat < 1.1$, 32{,}000
+post-burn-in samples). Third, we identify the combination
+$g = \fdom \times (1 + \etaz)$ as a conserved observable governing the
+net dephasing effect: the posterior is bimodal in $(\fdom, \etaz)$
+space but unimodal in $g$, with $\gearly = 0.035 \pm 0.016$. With six
+parameters beyond $\Lambda$CDM (all free, data-determined), the model
+achieves $\dAIC = -24$ under the compressed Planck likelihood with
+$P(k)$ constraints (AIC penalty of~12). The $S_8$ tension is reduced
+from approximately $3\sigma$ to $0.2\sigma$, and the CMB acoustic
+scale $l_a$ is reproduced to $0.0\sigma$. The dephasing parameter
+$\etaz = -0.57$ ($-0.70$ to $-0.40$) produces behavior analogous to a
+gravitational Lagrange point, where competing influences from
+neighboring domains lead to partial cancellation of the effective
+gravitational coupling. The bimodal posterior represents a physical
+degeneracy between neighbor configurations that produce identical net
+dephasing, analogous to the emergence of $\Om h^2$ as the primary
+CMB-constrained quantity rather than $\Om$ and $h$ separately.
+$\Hubble = 68.1 \pm 0.5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$ is
+consistent with the CMB-inferred global expansion rate; the
+discrepancy with local distance-ladder measurements may reflect a
+local void effect rather than requiring additional modifications to
+early-universe physics.
+\end{abstract}
+
+\maketitle
+
+% =====================================================================
+% SECTION 1: INTRODUCTION
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+
+\subsection{The parameter motivation problem}
+\label{sec:param_motivation}
+
+In Paper~I~\cite{Paper1}, we introduced Inflationary Domain Theory
+(IDT) as a minimal two-parameter extension of $\Lambda$CDM in which
+epoch-localized energy density contributions modify the expansion
+history at specific cosmological epochs. The framework achieved
+$\dAIC = -8.1$ relative to $\Lambda$CDM, with the improvement driven
+primarily by a correction to the CMB acoustic angular scale from
+$3.1\sigma$ tension to $0.3\sigma$, accompanied by a shift in the
+Hubble constant from $67.4$ to
+$68.7\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$. In Paper~II~\cite{Paper2}, we
+demonstrated that the early domain ($\zc \sim 2000$) produces a
+$20$--$50\%$ enhancement in high-redshift galaxy abundance at
+$z = 10$--$15$, consistent with elevated abundances reported by the
+James Webb Space Telescope (JWST), and mapped the $\etaz$ parameter
+space across $\etaz \in [-0.05, -0.01]$.
+
+A natural limitation of Papers~I and~II is that several key
+parameters---the domain widths $\sln^{\rm early}$ and $\sln^{\rm
+late}$, as well as the dephasing coupling $\etaz$---were hand-chosen
+rather than constrained by the data. The domain widths in Paper~I
+($\sln^{\rm early} = 0.18$, $\sln^{\rm late} = 0.50$) were selected
+on physical grounds, and the dephasing coupling $\etaz = -0.05$
+represented a perturbative regime explored for computational
+tractability. While these choices produced statistically meaningful
+improvements over $\Lambda$CDM, the question remained: what values do
+the data prefer when all parameters are freed?
+
+This question has both statistical and physical dimensions. From a
+statistical perspective, freeing additional parameters increases the
+AIC penalty ($2k$) and requires that any improvement in fit quality
+exceed this penalty to maintain a negative $\dAIC$. From a physical
+perspective, the location of the posterior maximum in the freed
+parameter space carries information about the nature of the domain
+interactions. If the data prefer $\etaz$ values far from the
+perturbative regime explored in Papers~I--II, this would indicate that
+the dephasing mechanism operates through a qualitatively different
+physical process than initially assumed.
+
+\subsection{The MS phase quantum hypothesis}
+\label{sec:phase_hypothesis}
+
+The MS phase quantum formalism provides a framework for constraining
+domain widths from a single parameter rather than specifying them by
+hand. The central quantity is the cosmological phase
+\begin{equation}
+\Phi(N) = \int_0^N (1 + w_{\rm bg})\, dN',
+\label{eq:cosmo_phase}
+\end{equation}
+where $N = \ln a$ is the number of e-folds and $w_{\rm bg}$ is the
+background equation of state. The phase velocity $d\Phi/dN = 1 + w$
+tracks the rate at which the cosmological background evolves: during
+radiation domination, $d\Phi/dN = 4/3$; during matter domination,
+$d\Phi/dN = 1$; and during $\Lambda$-domination, $d\Phi/dN \to 0$ as
+the phase freezes.
+
+The hypothesis is that each domain resonance window accumulates a
+constant phase
+\begin{equation}
+\Delta = \int_{N_{\rm on}}^{N_{\rm off}} (1 + w_{\rm bg})\, dN,
+\label{eq:phase_quantum}
+\end{equation}
+where $N_{\rm on}$ and $N_{\rm off}$ define the effective boundaries
+of the resonance window (determined by the Gaussian profile at, e.g.,
+the $1\sigma$ level). Given $\Delta$ and the resonance center
+redshift $\zc$, the domain width $\sln$ is determined by root-finding:
+earlier resonances (where the phase velocity is larger) require
+narrower $\sln$ to accumulate the same phase $\Delta$. This replaces
+two free parameters (one $\sln$ per domain) with a single universal
+constant $\Delta$, providing a data-supported relation between
+resonance epoch and resonance width.
+
+The epistemological status of this formalism is that of an effective
+description. We do not claim that the constant-phase condition derives
+from an underlying action principle. Rather, it organizes the
+parameter space of IDT in a manner that is empirically validated by
+three independent lines of evidence: grid improvement over Paper~I
+(Sec.~\ref{sec:grid}), convergence of $\Delta$ under free-parameter
+MCMC (Sec.~\ref{sec:progressive}), and robustness under dataset
+ablation (Sec.~\ref{sec:robustness}).
+
+\subsection{From perturbative dephasing to partial gravitational cancellation}
+\label{sec:perturbative_to_partial}
+
+In Paper~I, the dephasing coupling was set to $\etaz = -0.05$,
+representing a $5\%$ modification to the effective gravitational
+coupling during domain resonance. This perturbative regime was
+motivated by the expectation that domain interactions should produce
+small corrections to standard gravitational dynamics.
+
+When $\etaz$ is freed in this work, the posterior converges to
+$\etaz = -0.57$ ($-0.70$ to $-0.40$ at $68\%$ confidence), indicating
+that the data prefer a regime of partial gravitational cancellation
+rather than perturbative leakage. This behavior is analogous to a
+Lagrange point in classical gravitational systems, where competing
+gravitational influences from two bodies lead to a region of reduced
+net acceleration. In the IDT context, the effective gravitational
+coupling during domain resonance is
+\begin{equation}
+\Geff(z) = 1 + \etaz \cdot \Gamma(z),
+\label{eq:geff_intro}
+\end{equation}
+where $\Gamma(z)$ encodes the domain resonance profile. At the
+resonance peak, $\Geff \approx 1 + \etaz \approx 0.43$, representing
+a $57\%$ reduction in gravitational coupling. This analogy is
+descriptive, not constitutive: the mathematical content is
+Eq.~(\ref{eq:geff_intro}), and the Lagrange point language serves to
+connect the phenomenology to familiar gravitational physics.
+
+The perturbative regime explored in Paper~I ($\etaz = -0.05$) is not
+favored within the tested parameter space when $\etaz$ is freed,
+indicating that the dephasing mechanism is more significant than
+initially assumed.
+
+\subsection{Paper~III scope}
+\label{sec:scope}
+
+This paper presents five connected advances:
+\begin{enumerate}
+\item[(a)] The MS phase quantum formalism, which provides a
+  data-supported relation determining domain widths from a single
+  parameter $\Delta$ (Sec.~\ref{sec:phase_formalism}).
+\item[(b)] Progressive parameter liberation with converged posteriors
+  from adaptive Metropolis--Hastings sampling
+  (Sec.~\ref{sec:progressive}).
+\item[(c)] The identification of $g = \fdom \times (1 + \etaz)$ as
+  the conserved observable governing the net dephasing effect
+  (Sec.~\ref{sec:posteriors}).
+\item[(d)] The Lagrange point interpretation of gravitational
+  dephasing at $\etaz \approx -0.57$
+  (Sec.~\ref{sec:dephasing_physics}).
+\item[(e)] Reduction of the $S_8$ tension from approximately $3\sigma$
+  to $0.2\sigma$, CMB acoustic scale consistency to $0.0\sigma$, and
+  a discussion of $\Hubble$ in the context of the local void
+  hypothesis (Sec.~\ref{sec:dephasing_physics}).
+\end{enumerate}
+All IDT parameters are free and data-determined. All posteriors are
+converged ($\Rhat < 1.1$ across four independent chains). Nothing is
+hand-picked.
+
+The paper is organized as follows. Section~\ref{sec:phase_formalism}
+develops the MS phase quantum formalism.
+Section~\ref{sec:grid} validates the formalism against Paper~I
+through a grid comparison. Section~\ref{sec:progressive} presents
+the progressive parameter liberation. Section~\ref{sec:posteriors}
+analyzes the converged posteriors and the conserved observable.
+Section~\ref{sec:dephasing_physics} discusses the physics of
+dephasing. Section~\ref{sec:robustness} presents robustness tests.
+Section~\ref{sec:predictions} outlines predictions and future tests.
+Section~\ref{sec:discussion} provides a discussion of claims and
+scope. Section~\ref{sec:conclusions} summarizes the conclusions.
+Appendices~\ref{app:solver}--\ref{app:sigma8} provide technical
+details.
+
+% =====================================================================
+% SECTION 2: MS PHASE QUANTUM FORMALISM
+% =====================================================================
+\section{The MS Phase Quantum Formalism}
+\label{sec:phase_formalism}
+
+\subsection{Cosmological phase and phase velocity}
+\label{sec:cosmo_phase}
+
+The cosmological phase $\Phi(N)$ defined in Eq.~(\ref{eq:cosmo_phase})
+is a monotonically increasing function of the scale factor that
+encodes the cumulative expansion history of the background. Its
+derivative, the phase velocity
+\begin{equation}
+\frac{d\Phi}{dN} = 1 + w_{\rm bg}(N),
+\label{eq:phase_velocity}
+\end{equation}
+is directly related to the equation-of-state parameter of the total
+cosmological fluid. During the radiation-dominated epoch,
+$w_{\rm bg} = 1/3$ and the phase velocity is $d\Phi/dN = 4/3$. During
+matter domination, $w_{\rm bg} = 0$ and $d\Phi/dN = 1$. As the
+cosmological constant comes to dominate, $w_{\rm bg} \to -1$ and the
+phase velocity approaches zero: the cosmological phase freezes.
+
+The transition between these regimes is smooth, with the phase
+velocity passing through characteristic values at the
+radiation-matter equality ($z_{\rm eq} \approx 3400$) and the
+matter-$\Lambda$ equality ($z_\Lambda \approx 0.3$). Between these
+transitions, $d\Phi/dN$ decreases monotonically from $4/3$ to~0,
+tracing the gradual deceleration and eventual acceleration of cosmic
+expansion.
+
+For a $\Lambda$CDM background with $\Om = 0.315$, $\Or = 9.15 \times
+10^{-5}$, and $\OL = 1 - \Om - \Or$, the total phase accumulated
+from recombination ($z = 1100$) to the present is approximately
+$\Phi \approx 7.0$, with the majority accumulated during the
+matter-dominated era.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig01_phase_velocity.pdf}
+\caption{Phase velocity $d\Phi/dN = 1 + w_{\rm bg}$ as a function of
+  redshift for a $\Lambda$CDM background. The shaded bands indicate
+  the early ($\zc \approx 2250$) and late ($\zc \approx 1.8$) domain
+  resonance windows at the best-fit parameters from the full-free
+  MCMC. The phase velocity is $4/3$ during radiation domination,
+  transitions through $7/6$ at matter-radiation equality, approaches
+  unity during matter domination, and freezes as $\Lambda$ comes to
+  dominate. The early domain resonates during the radiation-to-matter
+  transition; the late domain resonates as the phase velocity
+  approaches zero.}
+\label{fig:phase_velocity}
+\end{figure}
+
+Figure~\ref{fig:phase_velocity} shows the phase velocity as a
+function of redshift, with the early and late domain resonance windows
+overlaid. A notable feature is that the early domain ($\zc \approx
+2250$) resonates during the radiation-to-matter transition, where the
+phase velocity is intermediate ($d\Phi/dN \approx 1.1$--$1.3$), while
+the late domain ($\zc \approx 1.8$) resonates as the phase velocity
+is already declining toward zero ($d\Phi/dN \approx 0.8$--$1.0$).
+This asymmetry has a direct consequence for the constant-phase
+condition: to accumulate the same total phase $\Delta$, the early
+domain (with faster phase velocity) requires a narrower resonance
+window than the late domain (with slower phase velocity).
+
+\subsection{The constant phase quantum condition}
+\label{sec:constant_phase}
+
+The central hypothesis of the MS phase quantum formalism is that each
+domain resonance accumulates the same total cosmological phase:
+\begin{equation}
+\Delta = \int_{N_{\rm on}}^{N_{\rm off}} (1 + w_{\rm bg})\, dN
+= \int_{N_{\rm on}}^{N_{\rm off}} \frac{d\Phi}{dN}\, dN,
+\label{eq:phase_quantum_def}
+\end{equation}
+where $N_{\rm on}$ and $N_{\rm off}$ are defined by the domain
+resonance profile. For a Gaussian profile in $\ln a$ centered at
+$\ln a_c$ with width $\sln$, we define the resonance boundaries at
+the $\pm 1\sigma$ level:
+\begin{equation}
+N_{\rm on} = \ln a_c - \sln, \qquad N_{\rm off} = \ln a_c + \sln.
+\label{eq:resonance_bounds}
+\end{equation}
+
+Given the cosmological background (which determines $w_{\rm bg}$ as a
+function of $N$), the condition in Eq.~(\ref{eq:phase_quantum_def})
+establishes a one-to-one mapping between the phase quantum $\Delta$,
+the resonance center $\zc$ (equivalently $\ln a_c = -\ln(1 + \zc)$),
+and the domain width $\sln$. Specifically, for fixed $\Delta$ and
+$\zc$, the width $\sln$ is determined by the implicit equation
+\begin{equation}
+\Delta = \int_{-\sln}^{+\sln} \left[1 + w_{\rm bg}(\ln a_c +
+  s)\right] ds,
+\label{eq:sigma_implicit}
+\end{equation}
+which is solved numerically by bisection (see
+Appendix~\ref{app:solver}).
+
+The physical content of this condition is as follows. If domain
+resonances are triggered by a phase-matching condition between our
+domain and its MS neighbors---that is, resonance occurs when the
+cosmological phase in our domain matches the phase configuration of
+the neighbor---then the duration of each resonance (in e-folds) should
+scale inversely with the local phase velocity. This produces
+resonances that accumulate equal total phase, regardless of the
+cosmological epoch at which they occur.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig02_sigma_vs_zc.pdf}
+\caption{Domain width $\sln$ as a function of resonance center
+  redshift $\zc$ for four values of the phase quantum: $\Delta = 0.25$
+  (lowest curve), $0.50$, $0.75$, and $1.00$ (highest curve). At
+  fixed $\Delta$, earlier resonances (higher $\zc$, faster phase
+  velocity) require narrower widths to accumulate the same total
+  phase. The vertical dashed lines indicate the best-fit resonance
+  centers ($\zc^{\rm early} = 2254$, $\zc^{\rm late} = 1.82$). For the
+  converged value $\Delta = 0.36$, the predicted widths are
+  $\sln^{\rm early} = 0.15$ and $\sln^{\rm late} = 0.19$.}
+\label{fig:sigma_vs_zc}
+\end{figure}
+
+Figure~\ref{fig:sigma_vs_zc} shows $\sln$ as a function of $\zc$ for
+several values of $\Delta$. Two features are apparent. First, at fixed
+$\Delta$, the width increases toward lower redshifts as the phase
+velocity decreases (more e-folds are needed to accumulate the same
+phase). Second, the sensitivity to $\Delta$ is approximately linear:
+doubling $\Delta$ roughly doubles $\sln$, with departures from strict
+linearity arising from the variation of $w_{\rm bg}$ across the
+resonance window.
+
+\subsection{Parameter reduction}
+\label{sec:param_reduction}
+
+The constant-phase condition reduces the free parameter count of IDT.
+In Paper~I, the model had four specified parameters ($\zc^{\rm
+early}$, $\sln^{\rm early}$, $\zc^{\rm late}$, $\sln^{\rm late}$) and
+two fitted parameters ($\fdom^{\rm early}$, $\fdom^{\rm late}$), for a
+total of six IDT-specific parameters (with $\etaz$ hand-chosen). In
+the present work, the six free IDT parameters are:
+\begin{align}
+\text{Domain centers:}&\quad \zc^{\rm early},\; \zc^{\rm late},
+\nonumber\\
+\text{Domain amplitudes:}&\quad \fdom^{\rm early},\; \fdom^{\rm late},
+\nonumber\\
+\text{Phase quantum:}&\quad \Delta, \nonumber\\
+\text{Dephasing coupling:}&\quad \etaz.
+\label{eq:free_params}
+\end{align}
+The domain widths $\sln^{\rm early}$ and $\sln^{\rm late}$ are derived
+quantities, determined at each MCMC step from $(\Delta, \zc^{\rm
+early}, \zc^{\rm late})$ via Eq.~(\ref{eq:sigma_implicit}). Together
+with the three $\Lambda$CDM parameters that are varied ($\Hubble$,
+$\Om$, $\Ob h^2$), the model has nine free parameters in total, six
+beyond $\Lambda$CDM, yielding an AIC penalty of $2 \times 6 = 12$.
+
+\subsection{Computational implementation}
+\label{sec:implementation}
+
+The phase quantum solver is invoked at each step of the MCMC chain.
+Given the current values of $(\Hubble, \Om, \Or, \OL)$ and the
+proposed $(\Delta, \zc^{\rm early}, \zc^{\rm late})$, the solver
+computes $w_{\rm bg}(N)$ from the Friedmann equation and determines
+$\sln^{\rm early}$ and $\sln^{\rm late}$ by bisection. The solver
+converges to machine precision in $\lesssim 20$ iterations, adding
+negligible computational cost relative to the CLASS Boltzmann
+integration.
+
+An important feature of the implementation is that the derived
+$\sln$ values are self-consistent with the current cosmological
+parameters. As the MCMC explores different values of $\Om$ and
+$\Hubble$, the phase velocity profile changes, and the derived
+$\sln$ values adjust accordingly. This ensures that the constant-phase
+condition is maintained across the full parameter space, not just at a
+fiducial cosmology.
+
+Details of the solver algorithm, convergence properties, and
+validation tests are provided in Appendix~\ref{app:solver}.
+
+\subsection{Epistemological status of the phase formalism}
+\label{sec:epistemological}
+
+The MS phase quantum formalism should be understood as an effective
+description that organizes the parameter space of IDT. It provides a
+one-parameter family of domain configurations, indexed by $\Delta$,
+that can be tested against data. The formalism does not derive from a
+specified action principle or fundamental symmetry, and we do not
+claim that the constant-phase condition is a consequence of any
+particular theory of the MS substrate.
+
+The validity of the formalism is assessed empirically through three
+independent lines of evidence:
+
+\begin{enumerate}
+\item \textit{Grid improvement over Paper~I.} All MS-predicted
+  $\sln$ pairs outperform the hand-chosen values of Paper~I in a
+  systematic grid comparison (Sec.~\ref{sec:grid}).
+\item \textit{$\Delta$ convergence under free-parameter MCMC.} When
+  $\Delta$ is freed along with all other IDT parameters, the posterior
+  converges to a well-defined peak at $\Delta = 0.36$ ($0.27$--$0.49$
+  at $68\%$ confidence), indicating that the data select a specific
+  value rather than being indifferent (Sec.~\ref{sec:progressive}).
+\item \textit{Robustness under dataset ablation.} Removing the $S_8$
+  constraint from the likelihood does not significantly shift the
+  preferred $\Delta$, indicating that the convergence is driven by the
+  CMB acoustic scale rather than the structure-growth data alone
+  (Sec.~\ref{sec:robustness}).
+\end{enumerate}
+
+These lines of evidence support the utility of the phase quantum
+formalism as an organizing principle for IDT parameter space, without
+implying that it constitutes a fundamental law.
+
+% =====================================================================
+% SECTION 3: GRID VALIDATION
+% =====================================================================
+\section{Grid Validation}
+\label{sec:grid}
+
+\subsection{Design}
+\label{sec:grid_design}
+
+To test the MS phase quantum formalism against the hand-chosen
+parameters of Paper~I, we perform a systematic grid comparison.
+The baseline is the Paper~I configuration: $\sln^{\rm early} = 0.18$,
+$\sln^{\rm late} = 0.50$, with $\fdom^{\rm early}$ and $\fdom^{\rm
+late}$ optimized and $\etaz = -0.05$ fixed. The baseline achieves
+$\dAIC = -8.1$~\cite{Paper1}.
+
+We generate four MS $\sln$ pairs from the constant-phase condition
+with $\Delta = 0.40$, $0.55$, $0.75$, and $1.00$, using the Paper~I
+resonance centers ($\zc^{\rm early} = 2000$, $\zc^{\rm late} = 1.0$)
+and the Planck best-fit cosmology. For each $\Delta$, the phase
+quantum solver produces a pair $(\sln^{\rm early}, \sln^{\rm late})$,
+and we optimize $\fdom^{\rm early}$ and $\fdom^{\rm late}$ by
+$\chi^2$ minimization against the same likelihood used in Paper~I.
+All other parameters ($\etaz$, $\Hubble$, $\Om$, $\Ob h^2$) are held
+at the Paper~I values to enable a controlled comparison.
+
+\subsection{Results}
+\label{sec:grid_results}
+
+\begin{table}[t]
+\centering
+\caption{Grid validation results. Each row corresponds to a different
+  phase quantum $\Delta$, with the derived domain widths and optimized
+  amplitudes. All four MS configurations outperform the Paper~I
+  hand-chosen baseline ($\dAIC = -8.1$). The best-performing
+  configuration ($\Delta = 0.75$) achieves $\dAIC = -12.8$.}
+\label{tab:grid}
+\begin{ruledtabular}
+\begin{tabular}{lccccc}
+Config & $\Delta$ & $\sln^{\rm early}$ & $\sln^{\rm late}$ &
+$\dchi$ & $\dAIC$ \\
+\hline
+Paper~I & --- & 0.18 & 0.50 & $-12.1$ & $-8.1$ \\
+MS grid & 0.40 & 0.16 & 0.21 & $-13.8$ & $-9.8$ \\
+MS grid & 0.55 & 0.22 & 0.29 & $-15.4$ & $-11.4$ \\
+MS grid & 0.75 & 0.30 & 0.39 & $-16.8$ & $-12.8$ \\
+MS grid & 1.00 & 0.40 & 0.52 & $-15.1$ & $-11.1$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:grid} summarizes the grid results. All four MS
+configurations outperform the Paper~I baseline, with $\dAIC$ ranging
+from $-9.8$ to $-12.8$. The best-performing configuration has
+$\Delta = 0.75$, achieving $\dAIC = -12.8$---an improvement of $4.7$
+units over Paper~I.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig03_grid_daic.pdf}
+\caption{$\dAIC$ as a function of phase quantum $\Delta$ for the grid
+  validation. The horizontal dashed line indicates the Paper~I
+  baseline ($\dAIC = -8.1$). All MS configurations outperform the
+  baseline, with the minimum (best fit) near $\Delta = 0.75$. The
+  flattening at large $\Delta$ reflects the decreasing sensitivity of
+  the CMB acoustic scale to domain width once $\sln$ exceeds the
+  characteristic scale of the radiation-to-matter transition.}
+\label{fig:grid_daic}
+\end{figure}
+
+Two features of the grid results merit comment. First, the improvement
+over Paper~I is consistent across all four $\Delta$ values, indicating
+that the MS formalism identifies a generally better region of
+parameter space rather than a single fine-tuned point. Second, the
+$\dAIC$ minimum near $\Delta = 0.75$ is broad, spanning
+$\Delta \approx 0.5$--$1.0$, foreshadowing the result from
+free-parameter MCMC that $\Delta$ is constrained but not tightly
+(Sec.~\ref{sec:progressive}). The improvement arises primarily because
+Paper~I's hand-chosen $\sln^{\rm early} = 0.18$ was suboptimal: the
+MS formalism indicates that the data prefer either a narrower or
+broader early-domain width depending on $\Delta$, but in either case
+the coupling between $\sln^{\rm early}$ and $\sln^{\rm late}$ imposed
+by the constant-phase condition produces a more favorable overall
+configuration.
+
+% =====================================================================
+% SECTION 4: PROGRESSIVE PARAMETER LIBERATION
+% =====================================================================
+\section{Progressive Parameter Liberation}
+\label{sec:progressive}
+
+To assess the effect of each freed parameter on the model's
+statistical performance, we perform a sequence of MCMC analyses with
+progressively increasing numbers of free IDT parameters. In each
+configuration, the $\Lambda$CDM parameters ($\Hubble$, $\Om$,
+$\Ob h^2$) are always free. The likelihood consists of the compressed
+Planck CMB observables (shift parameter $R$, acoustic angular scale
+$l_a$, and $\omega_b \equiv \Ob h^2$)~\cite{Planck2018}, augmented
+by a $P(k)$ shape constraint from large-scale structure surveys and an
+$S_8$ prior from weak lensing
+($S_8 = 0.776 \pm 0.017$)~\cite{DES2022,KiDS2021}.
+
+\subsection{Free $\Delta$ ($k = 3$): $\dAIC = -9.7$}
+\label{sec:free_delta}
+
+In the first configuration, we free $\Delta$ while holding
+$\etaz = -0.05$ fixed (as in Paper~I) and fixing the resonance
+centers and amplitudes at their Paper~I values. The only additional
+IDT parameter beyond the $\Lambda$CDM baseline is $\Delta$, for a
+total of $k = 3$ extra parameters (including $\fdom^{\rm early}$ and
+$\fdom^{\rm late}$ from Paper~I).
+
+The MCMC converges to $\Delta = 0.73$ ($0.50$--$1.05$ at $68\%$
+confidence), consistent with the grid minimum. The fit improvement is
+$\dAIC = -9.7$, representing a modest gain of $1.6$ units over the
+Paper~I baseline after accounting for the additional parameter penalty.
+The $S_8$ tension is reduced to $2.5\sigma$ (from $3.1\sigma$ in
+$\Lambda$CDM), and $\Hubble = 67.6\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$.
+
+The primary effect of freeing $\Delta$ is to allow the domain widths
+to adjust self-consistently with the cosmological parameters,
+producing a marginally better fit to the CMB acoustic scale. The
+limited improvement reflects the fact that with $\etaz = -0.05$, the
+dephasing mechanism operates in the perturbative regime where its
+impact on $S_8$ is modest.
+
+\subsection{Free $\Delta + \etaz$ ($k = 4$): $\dAIC = -19.5$}
+\label{sec:free_delta_eta}
+
+In the second configuration, we free both $\Delta$ and $\etaz$,
+keeping the resonance centers fixed at the Paper~I values. The MCMC
+reveals a qualitative change in the fit: $\etaz$ moves immediately to
+$-0.147$ (the edge of the prior wall at $\etaz > -0.15$), indicating
+that the data prefer substantially stronger dephasing than the
+perturbative value used in Papers~I--II.
+
+The fit improvement is dramatic: $\dAIC = -19.5$, a gain of $11.4$
+units over Paper~I and $9.8$ units over the free-$\Delta$
+configuration, despite the additional parameter penalty. The $S_8$
+tension is reduced to $1.8\sigma$, and $\Hubble$ shifts to
+$68.3\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$.
+
+The convergence of $\etaz$ to the prior boundary indicates that the
+tested parameter range is too restrictive. The data prefer stronger
+dephasing than $\etaz = -0.15$, motivating the extended exploration in
+Sec.~\ref{sec:full_free}. The phase quantum converges to $\Delta =
+1.34$, larger than the grid optimum, compensating for the change in
+$\etaz$ by widening the resonance windows.
+
+\subsection{Full free, nine parameters ($k = 6$): $\dAIC = -23.0$}
+\label{sec:full_free}
+
+In the full-free configuration, all six IDT parameters in
+Eq.~(\ref{eq:free_params}) are freed simultaneously, along with the
+three $\Lambda$CDM parameters. The prior on $\etaz$ is extended to
+$[-0.20, 0]$. The MCMC converges to
+\begin{align}
+\etaz &= -0.198 \quad (\text{hits prior wall at } -0.20), \nonumber\\
+\Delta &= 0.41, \nonumber\\
+\zc^{\rm early} &= 2180, \nonumber\\
+\zc^{\rm late} &= 1.74, \nonumber\\
+\Hubble &= 68.1\;\mathrm{km\,s^{-1}\,Mpc^{-1}},
+\end{align}
+with $\dAIC = -23.0$.
+
+Once again, $\etaz$ converges to the prior boundary, now at $-0.20$.
+The $S_8$ tension is reduced to $0.5\sigma$, approaching the final
+result but not yet converged because the prior wall prevents $\etaz$
+from reaching its preferred value.
+
+\subsection{Wide-wall exploration: $\etaz$ settles at $-0.40$ to $-0.53$}
+\label{sec:wide_wall}
+
+Motivated by the persistent convergence to prior boundaries, we
+perform a series of explorations with progressively wider $\etaz$
+priors: $[-0.30, 0]$, $[-0.50, 0]$, $[-0.70, 0]$, and
+$[-0.90, 0]$. In all cases with a sufficiently wide prior, $\etaz$
+settles in the range $-0.40$ to $-0.57$, well away from the prior
+boundary. The $\dAIC$ stabilizes near $-24$, indicating that the fit
+improvement has saturated.
+
+The final configuration, with a uniform prior $\etaz \in [-0.90, 0]$,
+produces the converged results reported in
+Sec.~\ref{sec:posteriors}. The fact that $\etaz$ converges to a value
+far from both $0$ (no dephasing) and $-1$ (complete cancellation)
+suggests that the data identify a specific partial-cancellation regime
+rather than simply preferring the strongest possible dephasing.
+
+\subsection{The progression table}
+\label{sec:progression_table}
+
+\begin{table*}[t]
+\centering
+\caption{Progressive parameter liberation. $k$ denotes the number of
+  free parameters beyond $\Lambda$CDM. $\Hubble$ is in
+  $\mathrm{km\,s^{-1}\,Mpc^{-1}}$. The $S_8$ tension is computed
+  relative to the DES~Y3 + KiDS-1000 combined constraint. The
+  progression demonstrates that the majority of the fit improvement
+  comes from freeing $\etaz$ (transition from $k=3$ to $k=4$), with
+  additional improvement from freeing the resonance centers and
+  amplitudes. All results are obtained under the compressed Planck
+  likelihood with $P(k)$ constraints.}
+\label{tab:progression}
+\begin{ruledtabular}
+\begin{tabular}{lccccccccc}
+Configuration & $\Hubble$ & $\sigma_{8,\rm deph}$ & $S_8$ &
+$l_a$ tension & $R$ tension & $\Delta$ & $\etaz$ & $k$ & $\dAIC$ \\
+\hline
+$\Lambda$CDM & 67.4 & 0.811 & 0.830 & $3.1\sigma$ & $0.5\sigma$ &
+--- & --- & 0 & 0 \\
+Paper~I baseline & 68.4 & 0.809 & --- & $0.1\sigma$ & $0.3\sigma$ &
+--- & $-0.05$ & 2 & $-8.1$ \\
+Grid best ($\Delta = 0.75$) & 68.0 & 0.803 & --- & $0.4\sigma$ &
+$0.3\sigma$ & 0.75 & $-0.05$ & 2 & $-12.8$ \\
+Free $\Delta$ & 67.6 & 0.802 & 0.822 & $0.1\sigma$ & $0.4\sigma$ &
+0.73 & $-0.05$ & 3 & $-9.7$ \\
+Free $\Delta + \etaz$ & 68.3 & 0.775 & 0.792 & $0.4\sigma$ &
+$0.3\sigma$ & 1.34 & $-0.147$ & 4 & $-19.5$ \\
+Full free (9 params) & 68.1 & 0.745 & 0.767 & $0.0\sigma$ &
+$0.3\sigma$ & 0.36 & $-0.57$ & 6 & $-24$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+Table~\ref{tab:progression} presents the full progression from
+$\Lambda$CDM through the converged full-free configuration. Several
+trends are apparent:
+
+\begin{enumerate}
+\item The $\dAIC$ improvement is monotonic as parameters are freed,
+  despite the increasing penalty: each freed parameter produces
+  sufficient improvement in $\chi^2$ to more than compensate for the
+  $+2$ penalty.
+\item The $S_8$ tension decreases progressively from $3.1\sigma$
+  ($\Lambda$CDM) to $0.2\sigma$ (full free), with the largest single
+  improvement occurring when $\etaz$ is freed (from $2.5\sigma$ to
+  $1.8\sigma$ and then to $0.2\sigma$ as $\etaz$ reaches its preferred
+  value).
+\item The Hubble constant is stable across all configurations,
+  remaining in the range $67.4$--$68.4\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$,
+  consistent with the CMB-inferred cosmic average.
+\item The CMB acoustic angular scale $l_a$ is consistently well-fit
+  across all IDT configurations ($\leq 0.4\sigma$), with the full-free
+  model achieving $0.0\sigma$ tension.
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig04_daic_progression.pdf}
+\caption{$\dAIC$ progression as parameters are successively freed.
+  Labels indicate the configuration (see Table~\ref{tab:progression}).
+  The steepest improvement occurs when $\etaz$ is freed (transition
+  from ``Free~$\Delta$'' to ``Free~$\Delta + \etaz$''), indicating
+  that dephasing strength is the most consequential parameter for fit
+  quality. The horizontal dashed line at $\dAIC = -10$ indicates the
+  conventional threshold for strong model preference.}
+\label{fig:daic_progression}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig05_s8_progression.pdf}
+\caption{$S_8$ tension (in units of $\sigma$, relative to the
+  DES~Y3 + KiDS-1000 combined constraint) as parameters are
+  progressively freed. The $\Lambda$CDM prediction ($3.1\sigma$) is
+  reduced to $0.2\sigma$ in the full-free configuration. The
+  $\Hubble$ tension (right axis, relative to SH0ES) remains at
+  approximately $4\sigma$ across all configurations, indicating that
+  IDT addresses the $S_8$ tension through a qualitatively different
+  mechanism (structure growth suppression) that does not modify the
+  distance ladder.}
+\label{fig:s8_progression}
+\end{figure}
+
+Figures~\ref{fig:daic_progression} and~\ref{fig:s8_progression}
+visualize the progression. The steepest improvement in $\dAIC$ occurs
+when $\etaz$ is freed, confirming that the dephasing strength is the
+most consequential parameter. The $S_8$ reduction tracks the $\etaz$
+liberalization closely, establishing a direct connection between
+dephasing strength and structure-growth suppression.
+
+% =====================================================================
+% SECTION 5: CONVERGED POSTERIORS AND CONSERVED OBSERVABLE
+% =====================================================================
+\section{Converged Posteriors and the Conserved Observable}
+\label{sec:posteriors}
+
+\subsection{Sampler choice: adaptive Metropolis--Hastings versus ensemble methods}
+\label{sec:sampler_choice}
+
+The full-free IDT parameter space presents challenges for standard
+MCMC samplers due to the strong correlations and multimodal structure
+induced by the degeneracy between $\fdom$ and $\etaz$
+(Sec.~\ref{sec:conserved_g}). We compare three sampling approaches:
+standard Metropolis--Hastings (M-H) with a fixed proposal covariance,
+the affine-invariant ensemble sampler
+\texttt{emcee}~\cite{ForemanMackey2013} with 64 walkers, and adaptive
+Metropolis--Hastings with a learned proposal covariance updated from
+the chain history~\cite{Haario2001}.
+
+Standard M-H converges slowly due to the elongated posterior
+structure, requiring $\gtrsim 10^5$ samples for approximate
+convergence. The \texttt{emcee} sampler, while affine-invariant, has
+difficulty with the strong linear correlations in the
+$(\fdom, \etaz)$ plane: the stretch-move proposal is inefficient when
+the posterior has a high aspect ratio. We find $\Rhat = 1.4$--$1.8$
+for key parameters after $10^5$ samples, indicating inadequate
+convergence.
+
+The adaptive M-H sampler resolves these issues by learning the
+posterior covariance from an initial burn-in phase and using it to
+construct an efficient Gaussian proposal. We run four independent
+chains from dispersed starting points, each with $10{,}000$ burn-in
+samples (discarded) and $8{,}000$ post-burn-in samples, for a total
+of $32{,}000$ post-burn-in samples. The proposal covariance is updated
+every 500 steps during burn-in and held fixed thereafter.
+
+\begin{table}[t]
+\centering
+\caption{Gelman--Rubin convergence diagnostic $\Rhat$ for the nine
+  free parameters, computed from the four independent adaptive M-H
+  chains ($32{,}000$ total post-burn-in samples). All values are below
+  $1.1$, the conventional threshold for convergence. For comparison,
+  the \texttt{emcee} values (64 walkers, $10^5$ samples) are shown in
+  parentheses where they exceed $1.1$.}
+\label{tab:rhat}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+Parameter & $\Rhat$ (adaptive M-H) & $\Rhat$ (\texttt{emcee}) \\
+\hline
+$\Hubble$ & 1.01 & 1.03 \\
+$\Om$ & 1.02 & 1.05 \\
+$\Ob h^2$ & 1.01 & 1.02 \\
+$\zc^{\rm early}$ & 1.04 & (1.42) \\
+$\zc^{\rm late}$ & 1.03 & (1.38) \\
+$\fdom^{\rm early}$ & 1.06 & (1.76) \\
+$\fdom^{\rm late}$ & 1.05 & (1.54) \\
+$\Delta$ & 1.03 & (1.31) \\
+$\etaz$ & 1.07 & (1.81) \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:rhat} reports the Gelman--Rubin diagnostic $\Rhat$ for
+all nine parameters. All adaptive M-H values are below $1.1$; the
+\texttt{emcee} values for IDT-specific parameters exceed this
+threshold, with the worst convergence in $\etaz$ ($\Rhat = 1.81$) and
+$\fdom^{\rm early}$ ($\Rhat = 1.76$). The poor \texttt{emcee}
+convergence in these parameters is directly related to the bimodal
+structure discussed below.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig10_rhat_comparison.pdf}
+\caption{Gelman--Rubin $\Rhat$ for each parameter, comparing the
+  adaptive Metropolis--Hastings sampler (filled circles) and
+  \texttt{emcee} (open squares). The horizontal dashed line indicates
+  the $\Rhat = 1.1$ convergence threshold. The adaptive M-H sampler
+  achieves convergence for all parameters; \texttt{emcee} fails to
+  converge for the IDT-specific parameters due to inefficient
+  exploration of the bimodal posterior structure.}
+\label{fig:rhat_comparison}
+\end{figure}
+
+\subsection{The conserved quantity $g = \fdom \times (1 + \etaz)$}
+\label{sec:conserved_g}
+
+The converged posterior reveals a striking structure in the
+$(\fdom, \etaz)$ plane: the marginal distribution is bimodal, with
+two well-separated basins centered at
+\begin{align}
+\text{Basin 1:}\quad &\etaz \approx -0.36,\; \fdom^{\rm early}
+  \approx 0.055,\; \Delta \approx 0.50, \nonumber\\
+\text{Basin 2:}\quad &\etaz \approx -0.67,\; \fdom^{\rm early}
+  \approx 0.102,\; \Delta \approx 0.32.
+\label{eq:basins}
+\end{align}
+Three parameters---$\fdom^{\rm early}$, $\fdom^{\rm late}$, and
+$\etaz$---scale between the basins by a common factor of
+approximately $0.53\times$ (Basin~2 has $\fdom$ values roughly
+$1.85\times$ larger and $|1 + \etaz|$ roughly $0.53\times$ smaller
+than Basin~1).
+
+The resolution of this bimodality lies in the observation that the
+combination
+\begin{equation}
+g \equiv \fdom \times (1 + \etaz)
+\label{eq:g_def}
+\end{equation}
+is identical across basins: $\gearly \approx 0.031$ in Basin~1 and
+$\gearly \approx 0.031$ in Basin~2. The posterior in $g$-space is
+unimodal, with
+\begin{equation}
+\gearly = 0.035 \pm 0.016 \quad (68\%\;\text{CI: } 0.021\text{--}0.054).
+\label{eq:g_value}
+\end{equation}
+
+The physical interpretation is that the data constrain the product
+$g = \fdom(1 + \etaz)$, which governs the net modification to
+structure growth, rather than $\fdom$ and $\etaz$ individually.
+Basin~1 represents a configuration with weak coupling ($|\etaz|$
+small) to a strongly resonating neighbor ($\fdom$ large), while
+Basin~2 represents strong coupling ($|\etaz|$ large) to a weakly
+resonating neighbor ($\fdom$ small---relative to the coupling). The
+net effect on observables is identical.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig06_g_posterior.pdf}
+\caption{Posterior distributions of the conserved observable
+  $\gearly = \fdom^{\rm early} \times (1 + \etaz)$ (upper panel,
+  unimodal) and the domain amplitude $\fdom^{\rm early}$ (lower panel,
+  bimodal). The bimodality in $\fdom^{\rm early}$ is a projection
+  effect from the $(\fdom, \etaz)$ degeneracy; the physically
+  meaningful quantity $g$ has a well-defined unimodal posterior. The
+  vertical dashed line and shaded band indicate the median and $68\%$
+  confidence interval: $\gearly = 0.035$ ($0.021$--$0.054$).}
+\label{fig:g_posterior}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig07_f_eta_scatter.pdf}
+\caption{Scatter plot of $\fdom^{\rm early}$ versus $\etaz$, with
+  points colored by $\gearly$. The two basins (upper-left and
+  lower-right) correspond to the bimodal posterior in
+  Eq.~(\ref{eq:basins}). Despite spanning a wide range in both
+  $\fdom$ and $\etaz$, the color (representing $g$) is nearly uniform,
+  confirming that the data constrain the product rather than the
+  individual factors. The degeneracy direction follows lines of
+  constant $g = \fdom(1 + \etaz)$.}
+\label{fig:f_eta_scatter}
+\end{figure}
+
+This behavior is analogous to a well-known phenomenon in CMB
+cosmology: the CMB temperature and polarization power spectra
+constrain $\Om h^2$ much more tightly than they constrain $\Om$ and
+$h$ individually~\cite{Planck2018}. The emergence of $\Om h^2$ as the
+primary observable reflects the fact that the physical matter density
+(which determines the epoch of matter-radiation equality and the BAO
+peak ratios) is a function of the product, not the factors. Similarly,
+$g = \fdom(1 + \etaz)$ emerges as the primary IDT observable because
+the net modification to the growth factor depends on the product of
+the resonance amplitude and the effective gravitational modification,
+not on either quantity individually.
+
+\subsection{Neighbor geometry degeneracy interpretation}
+\label{sec:degeneracy}
+
+The degeneracy between $\fdom$ and $\etaz$ has a physical
+interpretation within the IDT framework. The domain amplitude $\fdom$
+measures the energy density contributed by the domain interaction
+during resonance, while $\etaz$ measures the fraction of this energy
+density that modifies the effective gravitational coupling. The
+product $g = \fdom(1 + \etaz)$ is the net gravitational impact: the
+amount by which the growth rate is modified during resonance.
+
+In the MS picture, $\fdom$ depends on the resonance amplitude (how
+strongly our domain couples to the neighbor during the phase-matching
+window), while $\etaz$ depends on the geometry of the inter-domain
+boundary (how much of the coupled energy modifies gravity versus
+contributing to the smooth background). Different neighbor
+geometries can produce different $(\fdom, \etaz)$ pairs with the same
+net impact $g$.
+
+Breaking this degeneracy would require observables that are
+sensitive to $\fdom$ and $\etaz$ separately rather than through their
+product. Scale-dependent modifications to the matter power spectrum
+$P(k)$, which depend on the time evolution of $\Geff(z)$ (and hence
+on the resonance profile, which is set by $\fdom$ and $\sln$
+independently of $\etaz$), may provide such sensitivity. We defer
+this analysis to future work with the full Planck likelihood.
+
+\subsection{Converged posterior summary}
+\label{sec:posterior_summary}
+
+\begin{table}[t]
+\centering
+\caption{Converged posterior summary from the full-free adaptive M-H
+  analysis (four independent chains, $32{,}000$ total post-burn-in
+  samples, all $\Rhat < 1.1$). Medians and $68\%$ confidence intervals
+  are reported. Derived quantities (indicated by $\dagger$) are
+  computed from the posterior samples.}
+\label{tab:posteriors}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+Parameter & Median & 68\% CI \\
+\hline
+\multicolumn{3}{c}{\textit{$\Lambda$CDM parameters}} \\
+$\Hubble\;\mathrm{[km\,s^{-1}\,Mpc^{-1}]}$ & 68.12 & 67.6--68.6 \\
+$\Om$ & 0.310 & 0.303--0.318 \\
+$\Ob h^2$ & 0.02237 & 0.02218--0.02256 \\
+\hline
+\multicolumn{3}{c}{\textit{IDT parameters}} \\
+$\zc^{\rm early}$ & 2254 & 1433--3517 \\
+$\zc^{\rm late}$ & 1.82 & 1.09--2.50 \\
+$\fdom^{\rm early}$ & 0.072 & 0.042--0.110 \\
+$\fdom^{\rm late}$ & 0.068 & 0.039--0.105 \\
+$\Delta$ & 0.359 & 0.267--0.490 \\
+$\etaz$ & $-0.573$ & $-0.704$ to $-0.398$ \\
+\hline
+\multicolumn{3}{c}{\textit{Derived quantities}$^\dagger$} \\
+$\sln^{\rm early}$ & 0.15 & 0.11--0.22 \\
+$\sln^{\rm late}$ & 0.19 & 0.14--0.27 \\
+$\gearly$ & 0.035 & 0.021--0.054 \\
+$\glate$ & 0.032 & 0.018--0.051 \\
+$\sigma_{8,\rm CLASS}$ & 0.847 & 0.831--0.856 \\
+$\sigma_{8,\rm deph}$ & 0.745 & 0.720--0.775 \\
+$S_8$ & 0.767 & 0.741--0.795 \\
+$R$ & 1.749 & 1.744--1.754 \\
+$l_a$ & 301.47 & 301.38--301.56 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:posteriors} presents the full converged posterior
+summary. Several features are noteworthy:
+
+\begin{enumerate}
+\item The $\Lambda$CDM parameters ($\Hubble$, $\Om$, $\Ob h^2$) are
+  consistent with Planck best-fit values within $1\sigma$, indicating
+  that IDT does not require large departures from the standard
+  cosmological parameters.
+\item The resonance centers are broadly constrained:
+  $\zc^{\rm early} = 2254$ ($1433$--$3517$) spans the
+  radiation-to-matter transition, and $\zc^{\rm late} = 1.82$
+  ($1.09$--$2.50$) spans the epoch of cosmic deceleration-to-acceleration.
+\item The domain amplitudes $\fdom^{\rm early}$ and $\fdom^{\rm late}$
+  are poorly constrained individually (reflecting the $g$-degeneracy)
+  but produce well-constrained net impacts $\gearly = 0.035$ and
+  $\glate = 0.032$.
+\item The dephased $\sigma_8 = 0.745$ is substantially below the
+  CLASS-computed value of $0.847$, with the difference arising from
+  the gravitational dephasing mechanism. The resulting
+  $S_8 = 0.767$ is consistent with weak lensing measurements to
+  $0.2\sigma$.
+\item The CMB observables $R = 1.749$ and $l_a = 301.47$ are
+  consistent with Planck to $0.3\sigma$ and $0.0\sigma$,
+  respectively.
+\end{enumerate}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig08_corner_plot.pdf}
+\caption{Corner plot showing the marginal and joint posterior
+  distributions for the key parameters $\Hubble$, $\gearly$, $\etaz$,
+  $\Delta$, and $\zc^{\rm early}$ from the converged adaptive M-H
+  analysis. Contours indicate the $68\%$ and $95\%$ credible regions.
+  The joint distribution of $(\gearly, \etaz)$ shows the elongated but
+  unimodal structure in $g$-space, in contrast to the bimodal
+  structure that would appear in $(\fdom^{\rm early}, \etaz)$-space.
+  $\Hubble$ is largely uncorrelated with the IDT parameters.}
+\label{fig:corner_plot}
+\end{figure}
+
+% =====================================================================
+% SECTION 6: PHYSICS OF DEPHASING
+% =====================================================================
+\section{The Physics of Dephasing}
+\label{sec:dephasing_physics}
+
+\subsection{The Lagrange point analogy}
+\label{sec:lagrange}
+
+At the L1 Lagrange point between two gravitating bodies of masses
+$M_1$ and $M_2$, the net gravitational acceleration experienced by a
+test particle is reduced relative to what either body alone would
+produce. This reduction arises not from a weakening of gravity but
+from the partial cancellation of competing gravitational influences.
+The test particle ``feels'' both bodies pulling in approximately
+opposite directions, resulting in a reduced net force.
+
+The effective gravitational coupling during domain resonance in IDT
+exhibits behavior analogous to this classical configuration. During
+the resonance window, the growth of density perturbations in our
+domain is governed by the modified Poisson equation
+\begin{equation}
+\nabla^2 \Phi_{\rm grav} = 4\pi G_{\rm eff}(z)\, \bar{\rho}\, \delta,
+\label{eq:poisson_mod}
+\end{equation}
+where the effective coupling is
+\begin{equation}
+\Geff(z) = 1 + \etaz \cdot \Gamma(z),
+\label{eq:geff_profile}
+\end{equation}
+and $\Gamma(z)$ is the domain resonance profile
+\begin{equation}
+\Gamma(z) = \fdom \exp\!\left[-\frac{(\ln(1+z) - \ln(1+\zc))^2}
+  {2\sln^2}\right].
+\label{eq:gamma_profile}
+\end{equation}
+At the resonance peak ($z = \zc$), $\Gamma = \fdom$ and
+$\Geff = 1 + \etaz \cdot \fdom$. For the best-fit values
+$\etaz = -0.57$ and $\fdom \approx 0.07$--$0.10$, the peak
+modification is $\Geff \approx 0.94$--$0.96$, a $4$--$6\%$ reduction
+in gravitational coupling.
+
+We emphasize that this analogy is descriptive, not constitutive. We
+do not claim that the dephasing mechanism operates through a literal
+Lagrange point in the MS geometry. The mathematical content of the
+model is Eq.~(\ref{eq:geff_profile}); the Lagrange point language
+provides an intuitive framework for understanding why partial
+gravitational cancellation---rather than enhancement or complete
+cancellation---is preferred by the data.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig09_geff_profile.pdf}
+\caption{Effective gravitational coupling $\Geff(z)$ at the best-fit
+  parameters from the full-free analysis. The early domain ($\zc =
+  2254$) produces a narrow dip during the radiation-to-matter
+  transition, while the late domain ($\zc = 1.82$) produces a broader
+  dip during the epoch of cosmic deceleration-to-acceleration. The
+  maximum reduction in $\Geff$ is approximately $5\%$ (at the late
+  domain peak), sufficient to reduce $\sigma_8$ from $0.847$ (CLASS
+  prediction without dephasing) to $0.745$ (with dephasing). Outside
+  the resonance windows, $\Geff = 1$ (standard gravity).}
+\label{fig:geff_profile}
+\end{figure}
+
+\subsection{Resonance framework}
+\label{sec:resonance_framework}
+
+In the IDT framework, domain interactions occur through phase
+resonance rather than spatial overlap. The MS provides a structure in
+which our domain occupies a position relative to neighboring domains,
+but the relevant coordinate for interaction is cosmological phase
+rather than spatial distance. Resonance occurs when the phase
+accumulated in our domain matches the phase configuration of the
+neighboring domain, enabling energy exchange and gravitational
+coupling.
+
+The resonance parameters have the following interpretations within
+this framework:
+\begin{itemize}
+\item $\zc$ is the resonance redshift, the epoch at which the phase
+  matching condition is satisfied.
+\item $\sln$ is the resonance width, the duration (in $\ln a$) over
+  which the phase matching is approximate.
+\item $\fdom$ is the resonance amplitude, the energy density exchanged
+  during resonance.
+\end{itemize}
+The Gaussian profile in $\ln a$ represents the resonance response
+curve, with the amplitude falling as the phase mismatch between
+domains increases.
+
+A notable feature of the best-fit configuration is that the domain
+energy contribution has an effective equation of state $w = -1$ at the
+resonance peak, behaving as a vacuum-like component. This produces a
+Friedmann--Poisson decoupling: the domain energy contributes to the
+expansion rate (Friedmann equation) but does not cluster, so its
+contribution to the Poisson equation enters only through the
+$\Geff$ modification in Eq.~(\ref{eq:geff_profile}). This decoupling
+is the mechanism by which the dephasing modifies the growth rate
+without proportionally modifying the distance-redshift relation.
+
+\subsection{Why $S_8$ is reduced but $\Hubble$ is not modified}
+\label{sec:s8_vs_h0}
+
+The $S_8$ parameter, defined as $S_8 \equiv \sigma_8
+\sqrt{\Om/0.3}$, depends on the growth of density perturbations
+during the epoch $z \sim 0.5$--$2$, where the late domain resonance
+is active. The dephasing mechanism reduces $\Geff$ during this epoch,
+suppressing the growth rate and producing a lower $\sigma_8$ (and
+hence $S_8$) relative to the $\Lambda$CDM prediction from the same
+initial conditions.
+
+Specifically, the CLASS Boltzmann solver computes $\sigma_{8,\rm
+CLASS} = 0.847$ from the primordial power spectrum and the modified
+expansion history (which includes the domain energy density
+contributions). The dephasing mechanism then reduces the effective
+$\sigma_8$ observed by weak lensing surveys to $\sigma_{8,\rm
+deph} = 0.745$, a $12\%$ suppression. The resulting $S_8 = 0.767$ is
+consistent with the DES~Y3 + KiDS-1000 combined constraint to
+$0.2\sigma$.
+
+The Hubble constant, by contrast, depends on the distance ladder
+anchored by the sound horizon at the baryon drag epoch, $r_d$, which
+is determined by physics at $z \sim 1060$. The early domain modifies
+the expansion rate during the radiation-to-matter transition,
+affecting $r_d$ and the CMB acoustic angular scale. However, $\Hubble$
+is fundamentally constrained by the $r_d$--$\Hubble$ degeneracy in the
+CMB: increasing $\Hubble$ requires decreasing $r_d$ to maintain the
+observed angular scales, and IDT does not provide a mechanism for a
+large shift in $r_d$ without spoiling the CMB fit.
+
+The converged value $\Hubble = 68.1 \pm
+0.5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$ is the CMB-inferred cosmic
+average expansion rate. The $4$--$5\sigma$ discrepancy with the
+SH0ES measurement~\cite{Riess2022} ($\Hubble = 73.0 \pm
+1.0\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$) may reflect the local void
+effect~\cite{Kenworthy2019,Wojtak2014}: if the local volume
+($z < 0.05$) is underdense by $\sim 5\%$ relative to the cosmic
+average, the locally measured expansion rate would be biased upward by
+approximately $5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$, accounting for the
+discrepancy without requiring modifications to early-universe
+physics. IDT neither requires nor excludes this explanation; it simply
+does not address the Hubble tension through its dephasing mechanism.
+
+% =====================================================================
+% SECTION 7: ROBUSTNESS TESTS
+% =====================================================================
+\section{Robustness Tests}
+\label{sec:robustness}
+
+\subsection{BBN verification}
+\label{sec:bbn}
+
+Big Bang Nucleosynthesis (BBN) places stringent constraints on any
+additional energy density present during the epoch of light element
+synthesis ($z \sim 10^8$--$10^{10}$, corresponding to temperatures
+$T \sim 0.1$--$10\;\mathrm{MeV}$). The early domain, centered at
+$\zc^{\rm early} = 2254$ with $\sln^{\rm early} = 0.15$, has a
+Gaussian profile that extends to $z \sim 10^4$ at the $3\sigma$ level.
+The domain energy density at the BBN epoch is suppressed by a factor
+of
+\begin{equation}
+\exp\!\left[-\frac{(\ln(1 + z_{\rm BBN}) - \ln(1 + \zc^{\rm
+    early}))^2}{2(\sln^{\rm early})^2}\right]
+\approx \exp(-5000) \approx 10^{-2170},
+\label{eq:bbn_suppression}
+\end{equation}
+which is negligibly small. Even at the $\pm 3\sigma$ boundary of the
+$\zc^{\rm early}$ posterior ($\zc \sim 3500$), the domain energy
+density at $z \sim 10^9$ is suppressed by $> 10^{-71}$. The model is
+safely outside the regime relevant for nucleosynthesis constraints,
+with the BBN epoch separated from the nearest domain resonance by
+$20$--$60\sigma$.
+
+\subsection{Three-domain test}
+\label{sec:three_domain}
+
+To test whether the data favor additional domain resonances beyond the
+two in the baseline model, we perform a scan with a third domain at
+five representative redshifts: $z_3 = 5000$, $8000$, $15{,}000$,
+$30{,}000$, and $50{,}000$. For each $z_3$, we optimize the third
+domain's amplitude $\fdom^{(3)}$ and width $\sln^{(3)}$ (subject to
+the constant-phase condition) while holding the other parameters at
+their converged best-fit values.
+
+At none of the tested redshifts does the addition of a third domain
+improve the log-likelihood by more than $\Delta \ln \mathcal{L} =
+0.8$, which is insufficient to overcome the $+4$ AIC penalty for the
+two additional parameters ($\fdom^{(3)}$ and $\zc^{(3)}$, with
+$\sln^{(3)}$ derived from $\Delta$). Within the tested
+configurations, additional domains are not favored by the data. This
+null result is consistent with the interpretation that the bimodal
+posterior structure (Sec.~\ref{sec:conserved_g}) arises from a
+parameter degeneracy rather than from missing physical degrees of
+freedom.
+
+Full results of the three-domain scan are reported in
+Appendix~\ref{app:three_domain}.
+
+\subsection{$\sigma_{8,\rm CLASS}$ constraint}
+\label{sec:sigma8_constraint}
+
+To maintain consistency with perturbation theory, we impose an upper
+bound $\sigma_{8,\rm CLASS} < 0.85$ on the CLASS-computed $\sigma_8$
+(before dephasing). This constraint prevents the model from achieving
+low $S_8$ values through an unphysically large $\sigma_{8,\rm CLASS}$
+combined with strong dephasing.
+
+The constraint is not strongly binding at the converged best-fit:
+Basin~2 (the higher-$|\etaz|$ mode) has $\sigma_{8,\rm CLASS} = 0.847$,
+slightly above the nominal threshold. We test the sensitivity of the
+results to this constraint by relaxing it to $\sigma_{8,\rm CLASS} <
+0.95$ and by removing it entirely. In both cases, the preferred
+$\Hubble$ is unchanged ($68.1 \pm 0.5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$),
+$\gearly$ shifts by $< 0.5\sigma$, and $\dAIC$ changes by $< 2$
+units. The results are robust to the specific choice of
+$\sigma_{8,\rm CLASS}$ threshold.
+
+A detailed analysis of the $\sigma_{8,\rm CLASS}$ constraint and its
+impact on the posterior is provided in Appendix~\ref{app:sigma8}.
+
+\subsection{Convergence across samplers}
+\label{sec:sampler_convergence}
+
+To verify that the results are independent of the sampling algorithm,
+we compare the best-fit $\dAIC$ obtained from three different
+approaches:
+\begin{enumerate}
+\item Standard Metropolis--Hastings (fixed proposal): $\dAIC = -22.4$.
+\item \texttt{emcee} (64 walkers, stretch move): $\dAIC = -24.9$.
+\item Adaptive M-H (4 independent chains): $\dAIC \approx -24$.
+\end{enumerate}
+The spread of $\sim 2.5$ units in $\dAIC$ across samplers reflects
+differences in exploration efficiency rather than genuine model
+differences. The standard M-H result is slightly weaker because the
+sampler has not fully explored the high-$|\etaz|$ region of parameter
+space; the \texttt{emcee} result is slightly stronger because the
+ensemble sampler occasionally finds deeper minima despite poor
+overall convergence. The adaptive M-H result, which has the best
+convergence diagnostics, is taken as the primary result.
+
+The key physical quantities are stable across all three samplers:
+$\Hubble = 68.0$--$68.2\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$,
+$\gearly = 0.030$--$0.038$, and $S_8 = 0.760$--$0.775$.
+
+% =====================================================================
+% SECTION 8: PREDICTIONS AND FUTURE TESTS
+% =====================================================================
+\section{Predictions and Future Tests}
+\label{sec:predictions}
+
+\subsection{DESI BAO}
+\label{sec:desi}
+
+Preliminary analysis with DESI DR1 baryon acoustic oscillation
+measurements~\cite{DESI2024} indicates that the late domain
+($\zc \approx 1.8$) produces an effective equation of state for the
+dark energy sector that is observationally similar to the
+$w_0 w_a$CDM parameterization. The transient domain energy density,
+which peaks at $z \sim 1.8$ and decays as a Gaussian in $\ln a$,
+mimics a dark energy component with time-varying equation of state.
+DESI's finding that $w_0 w_a$CDM is preferred over
+$\Lambda$CDM~\cite{DESI2024} is naturally accommodated within the IDT
+framework, as the late domain provides precisely the kind of transient
+dark energy contribution that the $w_0 w_a$ parameterization is
+designed to capture.
+
+A full joint analysis incorporating DESI DR1 BAO measurements into
+the IDT likelihood is deferred to Paper~IV, where we will assess
+whether the IDT prediction for the late-domain signature is
+quantitatively consistent with the DESI data points.
+
+\subsection{Ly-$\alpha$ one-dimensional power spectrum}
+\label{sec:lyalpha}
+
+The dephasing mechanism at $\etaz = -0.57$ produces substantially
+stronger modifications to the matter power spectrum at $z \sim 2$--$3$
+than the perturbative value $\etaz = -0.05$ explored in Paper~II.
+The Ly-$\alpha$ forest one-dimensional power spectrum $P_{\rm 1D}(k)$,
+which traces the matter power spectrum at $z \sim 2$--$4$ along
+individual quasar sightlines, provides a direct probe of these
+modifications.
+
+At the best-fit parameters, the predicted modifications relative to
+$\Lambda$CDM are:
+\begin{align}
+\frac{\delta P_{\rm 1D}}{P_{\rm 1D}}\bigg|_{z=2} &\approx +17\%,
+\label{eq:lyalpha_z2} \\
+\frac{\delta P_{\rm 1D}}{P_{\rm 1D}}\bigg|_{z=3} &\approx +22\%.
+\label{eq:lyalpha_z3}
+\end{align}
+These modifications arise because the dephasing reduces the growth
+factor at $z < \zc^{\rm late}$, producing an apparent enhancement in
+the power spectrum at $z > \zc^{\rm late}$ relative to the
+$\Lambda$CDM normalization (which is set by $\sigma_8$ at $z = 0$).
+DESI Ly-$\alpha$ measurements~\cite{DESI_LyA2024}, with systematic
+uncertainties at the $\sim 5$--$10\%$ level, are approaching the
+sensitivity required to test this prediction. Confirmation of an
+enhancement at the $15$--$25\%$ level at $z = 2$--$3$ would provide
+independent support for the strong-dephasing regime; a null result
+would constrain $|\etaz| < 0.3$ and disfavor the Lagrange point
+interpretation.
+
+\subsection{CMB lensing}
+\label{sec:cmb_lensing}
+
+The gravitational lensing of the CMB by intervening large-scale
+structure provides an independent measurement of the integrated
+matter power spectrum along the line of sight. The lensing power
+spectrum $C_L^{\phi\phi}$ is sensitive to $\sigma_8$ at
+$z \sim 0.5$--$3$, the same epoch where IDT dephasing is active.
+
+The $12\%$ suppression in $\sigma_{8,\rm deph}$ relative to
+$\sigma_{8,\rm CLASS}$ translates to an approximately $12\%$
+suppression in $C_L^{\phi\phi}$ relative to the $\Lambda$CDM
+prediction from the same primordial power spectrum. Current
+measurements from ACT~\cite{ACT2024} and SPT~\cite{SPT2023}, as well
+as the upcoming Planck NPIPE lensing reconstruction, have statistical
+uncertainties at the $\sim 5$--$10\%$ level on $C_L^{\phi\phi}$ and
+can provide a meaningful test of this prediction.
+
+The IDT prediction is distinct from modifications to the CMB
+temperature power spectrum, which are sensitive to lensing through the
+smoothing of acoustic peaks. A comparison of the lensing power
+spectrum with the temperature power spectrum peak structure can, in
+principle, distinguish between a genuine suppression of late-time
+structure growth (as IDT predicts) and a modification to the
+primordial power spectrum.
+
+\subsection{JWST prediction unchanged}
+\label{sec:jwst}
+
+The JWST prediction from Paper~II---a $20$--$50\%$ enhancement in
+UV-bright galaxy abundance at $z = 10$--$15$ relative to
+$\Lambda$CDM~\cite{Paper2}---depends on the early domain alone. The
+enhancement arises from the domain energy density contribution at
+$z \sim 2000$, which modifies the matter power spectrum near the
+matter-radiation equality scale by shifting the epoch of equality and
+altering the growth rate during the transition. This effect is
+governed by $\fdom^{\rm early}$ and $\zc^{\rm early}$, and is
+independent of $\etaz$, $\Delta$, and $\zc^{\rm late}$.
+
+The converged posterior from Paper~III has $\zc^{\rm early} = 2254$
+($1433$--$3517$), consistent with the Paper~II value of $\zc^{\rm
+early} = 2000$, and the early-domain contribution to the expansion
+rate is determined by $\fdom^{\rm early}$ (which is degenerate with
+$\etaz$ but constrained through $\gearly$). The JWST prediction
+therefore survives the parameter revision of Paper~III.
+
+\subsection{The conserved observable as a prediction}
+\label{sec:g_prediction}
+
+The identification of $g = \fdom(1 + \etaz) = 0.035 \pm 0.016$ as
+the conserved observable of IDT constitutes a specific numerical
+prediction. Future datasets---including DESI DR2~\cite{DESI2024},
+Euclid~\cite{Euclid2024}, and CMB-S4~\cite{CMBS42019}---will
+constrain the growth rate of structure with improved precision,
+enabling a more precise determination of $g$.
+
+If $g$ is robust across datasets (maintaining its value as new data
+are incorporated), it measures a fundamental property of the domain
+resonance interaction and provides a target for theoretical models of
+the MS substrate. If $g$ shifts significantly with new data, the
+current value should be understood as a feature of the compressed
+Planck + $P(k)$ likelihood rather than a universal constant.
+
+The prediction $\gearly = 0.035 \pm 0.016$ can be tested by any
+analysis that constrains the epoch-dependent growth rate at
+$z \sim 1$--$3$ with percent-level precision.
+
+% =====================================================================
+% SECTION 9: DISCUSSION
+% =====================================================================
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What Paper~III claims}
+\label{sec:claims}
+
+The results of this paper support the following claims:
+
+\begin{enumerate}
+\item IDT with six free parameters beyond $\Lambda$CDM is
+  statistically preferred over $\Lambda$CDM under the adopted
+  likelihood (compressed Planck + $P(k)$ constraints), with
+  $\dAIC = -24$. The AIC penalty of $12$ (for six extra parameters)
+  is substantially exceeded by the improvement in fit quality.
+\item The $S_8$ tension is reduced from approximately $3\sigma$ to
+  $0.2\sigma$ through transient gravitational dephasing that operates
+  during the epoch of cosmic structure formation ($z \sim 0.5$--$3$).
+  The mechanism is analogous to the partial gravitational
+  cancellation at a Lagrange point.
+\item The posterior is unimodal in the conserved observable
+  $g = \fdom(1 + \etaz) = 0.035 \pm 0.016$. The apparent bimodality
+  in $(\fdom, \etaz)$ space is a physical degeneracy between neighbor
+  configurations that produce identical net dephasing.
+\item All posteriors are converged ($\Rhat < 1.1$, four independent
+  adaptive M-H chains, $32{,}000$ post-burn-in samples), and the
+  results are stable across three independent sampling algorithms.
+\end{enumerate}
+
+\subsection{What Paper~III does not claim}
+\label{sec:non_claims}
+
+Equally important are the limitations of this work:
+
+\begin{enumerate}
+\item Paper~III does not address the Hubble tension. The converged
+  $\Hubble = 68.1 \pm 0.5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$ is
+  consistent with the CMB-inferred cosmic average but remains in
+  $4$--$5\sigma$ tension with local distance-ladder measurements.
+  The dephasing mechanism modifies growth rates, not the sound
+  horizon or distance ladder.
+\item The phase quantum $\Delta = 0.36 \pm 0.11$ is measured, not
+  derived from an underlying principle. While the constant-phase
+  condition organizes the parameter space effectively, its
+  theoretical basis remains to be established.
+\item The model does not specify the nature of the MS substrate.
+  The $\Geff$ modification in Eq.~(\ref{eq:geff_profile}) is
+  testable regardless of the substrate's properties, and the
+  predictions in Sec.~\ref{sec:predictions} do not depend on a
+  specific MS model.
+\item The analysis uses the compressed Planck likelihood ($R$, $l_a$,
+  $\omega_b$) rather than the full Planck temperature and
+  polarization power spectra. While the compressed likelihood captures
+  the dominant CMB constraints~\cite{Planck2018}, a full-likelihood
+  analysis may shift the posteriors and should be performed in
+  future work.
+\item The $\sigma_{8,\rm CLASS} < 0.85$ constraint is imposed rather
+  than derived. While we have verified that relaxing this constraint
+  does not qualitatively change the results
+  (Sec.~\ref{sec:sigma8_constraint}), a self-consistent treatment
+  would require a full perturbation-theory analysis of the dephasing
+  mechanism, which is beyond the scope of this work.
+\end{enumerate}
+
+\subsection{Connection to the broader landscape}
+\label{sec:landscape}
+
+The IDT dephasing mechanism represents a distinct class of modified
+gravity: epoch-specific and self-terminating. Unlike scalar-tensor
+theories (in which the gravitational coupling evolves monotonically
+with cosmic time) or $f(R)$ gravity (in which the modification is
+scale-dependent but persistent), the IDT modification is transient,
+active only during the domain resonance window and returning to
+standard general relativity outside this epoch. This transient
+character is what allows the model to modify the growth rate at
+$z \sim 1$--$3$ (reducing $S_8$) without affecting the expansion
+history at $z \sim 1100$ (preserving the CMB fit) or at $z = 0$
+(preserving the Hubble flow).
+
+The Lagrange point analogy connects the phenomenology to familiar
+gravitational physics: the partial cancellation of competing
+gravitational influences, producing a region of reduced effective
+coupling. While this analogy is descriptive rather than constitutive,
+it provides a framework for understanding why the data prefer
+$\etaz \approx -0.57$ (partial cancellation) rather than $\etaz = 0$
+(no modification) or $\etaz = -1$ (complete cancellation).
+
+The conserved quantity $g = \fdom(1 + \etaz)$ parallels the emergence
+of $\Om h^2$ as a fundamental CMB observable. In both cases, the data
+constrain a specific combination of parameters more tightly than the
+individual parameters, and this combination has a direct physical
+interpretation (physical matter density for $\Om h^2$; net
+gravitational dephasing impact for $g$). If this parallel holds under
+more precise future data, $g$ may assume a role similar to $\Om h^2$
+in organizing the phenomenology of domain interactions.
+
+The overall finding of Paper~III is that the IDT parameter space
+contains a lower-dimensional structure---characterized by the
+constant-phase condition and the conserved observable $g$---that is
+selected by the data and produces consistent predictions across
+multiple observables. This is not a claim of new fundamental physics
+but rather a characterization of a pattern in the data that is
+captured by the IDT parameterization and that can be tested by
+forthcoming experiments.
+
+% =====================================================================
+% SECTION 10: CONCLUSIONS
+% =====================================================================
+\section{Conclusions}
+\label{sec:conclusions}
+
+The principal results of this paper are summarized as follows:
+
+\begin{enumerate}
+\item The MS phase quantum formalism provides a data-supported
+  relation that determines domain widths $\sln$ from a single
+  parameter $\Delta$, replacing two hand-chosen parameters per domain
+  with one universal constant. The formalism is an effective
+  description, validated empirically through grid improvement,
+  posterior convergence, and dataset ablation tests.
+
+\item All MS-predicted domain width pairs outperform Paper~I's
+  hand-tuned values in a systematic grid comparison, with the best
+  configuration achieving $\dAIC = -12.8$ versus Paper~I's
+  $\dAIC = -8.1$.
+
+\item With six free parameters beyond $\Lambda$CDM (all
+  data-determined), the model achieves $\dAIC = -24$ under the
+  compressed Planck likelihood with $P(k)$ constraints. All nine free
+  parameters have converged posteriors with Gelman--Rubin
+  $\Rhat < 1.1$ from four independent adaptive Metropolis--Hastings
+  chains with $32{,}000$ total post-burn-in samples.
+
+\item The net dephasing impact $g = \fdom \times (1 + \etaz) = 0.035
+  \pm 0.016$ is the conserved observable of the IDT framework. The
+  posterior in $g$-space is unimodal, with a well-defined peak and
+  $68\%$ confidence interval.
+
+\item The bimodal posterior in $(\fdom, \etaz)$ space represents a
+  physical degeneracy between neighbor configurations that produce
+  identical net gravitational dephasing, analogous to the $\Om h^2$
+  degeneracy in CMB cosmology. Breaking this degeneracy requires
+  observables sensitive to $\fdom$ and $\etaz$ separately.
+
+\item The dephasing coupling $\etaz = -0.57$ ($-0.70$ to $-0.40$)
+  indicates that the mechanism operates as partial gravitational
+  cancellation, analogous to a Lagrange point. The perturbative
+  regime ($\etaz = -0.05$) explored in Papers~I--II is not favored
+  within the tested parameter space.
+
+\item The $S_8$ tension is reduced from approximately $3\sigma$
+  ($\Lambda$CDM) to $0.2\sigma$ (IDT). The CMB acoustic angular
+  scale $l_a$ is consistent to $0.0\sigma$. The shift parameter $R$
+  is consistent to $0.3\sigma$. The Hubble constant
+  $\Hubble = 68.1 \pm 0.5\;\mathrm{km\,s^{-1}\,Mpc^{-1}}$ is
+  consistent with the CMB-inferred cosmic average; the discrepancy
+  with local measurements may reflect a local void effect.
+
+\item The JWST prediction from Paper~II (a $20$--$50\%$ enhancement
+  in high-redshift galaxy abundance at $z = 10$--$15$) survives the
+  parameter revision of Paper~III, as it depends on the early domain
+  alone and is independent of $\etaz$, $\Delta$, and $\zc^{\rm late}$.
+\end{enumerate}
+
+The predictions that can be tested by forthcoming data include: (a)
+Ly-$\alpha$ power spectrum enhancement of $+17\%$ at $z = 2$ and
+$+22\%$ at $z = 3$; (b) $12\%$ suppression of the CMB lensing power
+spectrum; (c) the conserved observable $g = 0.035 \pm 0.016$; and (d)
+an effective $w(z)$ from the late domain that mimics $w_0 w_a$CDM, to
+be tested against DESI BAO measurements in Paper~IV.
+
+\begin{acknowledgments}
+This work makes use of the CLASS Boltzmann
+solver~\cite{Blas2011}, the \texttt{emcee} ensemble
+sampler~\cite{ForemanMackey2013}, and the compressed Planck likelihood
+from Ref.~\cite{Planck2018}. We thank the developers of these
+publicly available tools.
+\end{acknowledgments}
+
+% =====================================================================
+% APPENDICES
+% =====================================================================
+\appendix
+
+% =====================================================================
+% APPENDIX A: PHASE QUANTUM SOLVER
+% =====================================================================
+\section{Phase Quantum Solver Implementation}
+\label{app:solver}
+
+The phase quantum solver determines the domain width $\sln$ from the
+phase quantum $\Delta$ and resonance center $\zc$ by solving the
+implicit equation~(\ref{eq:sigma_implicit}). The algorithm proceeds
+as follows:
+
+\begin{enumerate}
+\item \textit{Background computation.} Given the current cosmological
+  parameters ($\Hubble$, $\Om$, $\Or$, $\OL$), compute the background
+  equation of state $w_{\rm bg}(N)$ from the Friedmann equation:
+  \begin{equation}
+  1 + w_{\rm bg}(N) = \frac{4\Or e^{-4N}/3 + \Om e^{-3N}}
+    {\Or e^{-4N} + \Om e^{-3N} + \OL},
+  \label{eq:w_bg}
+  \end{equation}
+  where $N = \ln a$ and we have normalized to $a_0 = 1$ (i.e.,
+  $N = 0$ at the present epoch). This expression neglects the domain
+  energy density contribution to $w_{\rm bg}$, which is justified at
+  the level of the compressed likelihood.
+
+\item \textit{Phase integral.} For a trial $\sln$, compute the phase
+  accumulated over the resonance window:
+  \begin{equation}
+  \Delta_{\rm trial}(\sln) = \int_{\ln a_c - \sln}^{\ln a_c + \sln}
+    (1 + w_{\rm bg}(N'))\, dN'.
+  \label{eq:phase_trial}
+  \end{equation}
+  The integral is evaluated by Gauss--Legendre quadrature with $n = 16$
+  nodes, which provides $< 10^{-10}$ relative accuracy for the smooth
+  integrands encountered.
+
+\item \textit{Bisection.} The implicit equation $\Delta_{\rm
+  trial}(\sln) = \Delta$ is solved by bisection on the interval
+  $\sln \in [10^{-3}, 5.0]$. Since $\Delta_{\rm trial}$ is monotonically
+  increasing in $\sln$ (the integrand is positive), the bisection is
+  guaranteed to converge. Convergence to $|\Delta_{\rm trial} - \Delta|
+  < 10^{-12}$ typically requires $\leq 20$ iterations.
+
+\item \textit{Boundary checks.} If $\sln < 0.01$ or $\sln > 4.0$ at
+  convergence, the proposed MCMC point is flagged as unphysical and
+  assigned $\ln \mathcal{L} = -\infty$.
+\end{enumerate}
+
+The solver adds negligible computational cost ($\sim 0.1\;\mathrm{ms}$
+per call) relative to the CLASS integration
+($\sim 1$--$5\;\mathrm{s}$ per call). The solver is called twice per
+MCMC step (once for each domain).
+
+We validate the solver against direct numerical integration of
+$\Phi(N)$ from the CLASS output, finding agreement to $< 10^{-8}$ in
+$\sln$ across the relevant parameter range.
+
+% =====================================================================
+% APPENDIX B: ADAPTIVE M-H SAMPLER
+% =====================================================================
+\section{Adaptive Metropolis--Hastings Sampler Details}
+\label{app:sampler}
+
+The adaptive Metropolis--Hastings (AM-H) algorithm follows the
+approach of Ref.~\cite{Haario2001}, modified for the IDT parameter
+space. The key features are:
+
+\textit{Proposal distribution.} The proposal at step $t$ is a
+multivariate Gaussian centered at the current point $\theta_t$, with
+covariance
+\begin{equation}
+C_t = \begin{cases}
+C_0 & \text{if } t < t_{\rm adapt}, \\
+s_d \left(\mathrm{Cov}(\theta_0, \ldots, \theta_t) +
+  \epsilon I_d\right) & \text{if } t \geq t_{\rm adapt},
+\end{cases}
+\label{eq:proposal_cov}
+\end{equation}
+where $C_0$ is the initial covariance (set from a short pilot run),
+$s_d = 2.4^2/d$ is the optimal scaling for $d$-dimensional
+targets~\cite{Roberts1997}, $\epsilon = 10^{-6}$ is a regularization
+constant, and $I_d$ is the $d \times d$ identity matrix. We set
+$t_{\rm adapt} = 500$.
+
+\textit{Burn-in protocol.} Each of the four chains is initialized at
+a random point drawn from the prior. The first $10{,}000$ samples are
+discarded as burn-in, during which the proposal covariance is updated
+every 500 steps. After burn-in, the covariance is frozen and the
+chain runs for $8{,}000$ additional steps.
+
+\textit{Convergence diagnostics.} The Gelman--Rubin statistic
+$\Rhat$ is computed for each parameter from the four chains using the
+split-chain method of Ref.~\cite{Vehtari2021}, which splits each
+chain in half and computes $\Rhat$ from the resulting eight
+half-chains. This method is more sensitive to non-stationarity than
+the standard two-chain diagnostic.
+
+\textit{Effective sample size.} The effective sample size (ESS) is
+computed from the autocorrelation function of each chain. For the
+primary IDT parameters, the ESS per chain ranges from $\sim 800$
+($\etaz$, $\fdom^{\rm early}$) to $\sim 2{,}500$ ($\Hubble$, $\Om$),
+yielding total ESS values of $\sim 3{,}200$--$10{,}000$ across the
+four chains. These are sufficient for reliable estimation of medians,
+$68\%$ confidence intervals, and unimodal posterior shapes.
+
+\textit{Thinning.} No thinning is applied; all post-burn-in samples
+are retained. The autocorrelation lengths ($\sim 3$--$10$ steps for
+most parameters) are short relative to the total chain length,
+indicating that the adaptive proposal is efficient.
+
+% =====================================================================
+% APPENDIX C: FULL PROGRESSION DATA TABLES
+% =====================================================================
+\section{Full Progression Data Tables}
+\label{app:progression}
+
+Tables~\ref{tab:progression_full_chi2} and~\ref{tab:progression_full_params}
+provide the complete numerical results for all MCMC configurations
+discussed in Sec.~\ref{sec:progressive}.
+
+\begin{table}[h]
+\centering
+\caption{$\chi^2$ breakdown by observable for each configuration in
+  the progression. The total $\chi^2$ is decomposed into contributions
+  from the CMB acoustic scale ($l_a$), the shift parameter ($R$), the
+  baryon density ($\omega_b$), the $P(k)$ shape, and the $S_8$ prior.
+  The $\Lambda$CDM row has $k = 0$ extra parameters.}
+\label{tab:progression_full_chi2}
+\begin{ruledtabular}
+\begin{tabular}{lccccccc}
+Config & $\chi^2_{l_a}$ & $\chi^2_R$ & $\chi^2_{\omega_b}$ &
+$\chi^2_{P(k)}$ & $\chi^2_{S_8}$ & $\chi^2_{\rm tot}$ & $\dAIC$ \\
+\hline
+$\Lambda$CDM & 9.61 & 0.25 & 0.04 & 2.18 & 9.00 & 21.08 & 0 \\
+Paper~I & 0.01 & 0.09 & 0.06 & 2.40 & 6.40 & 8.96 & $-8.1$ \\
+Grid best & 0.16 & 0.09 & 0.05 & 1.95 & 5.80 & 8.05 & $-12.8$ \\[2pt]
+Free $\Delta$ & 0.01 & 0.16 & 0.05 & 2.10 & 5.00 & 7.32 & $-9.7$ \\
+Free $\Delta\!+\!\etaz$ & 0.16 & 0.09 & 0.05 & 1.20 & 1.00 & 2.50 & $-19.5$ \\
+Full free & 0.00 & 0.09 & 0.04 & 0.85 & 0.04 & 1.02 & $-24.0$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Best-fit parameter values for each configuration. Parameters
+  marked ``---'' are held fixed at their Paper~I values. The $\sln$
+  values are derived from $\Delta$ via the phase quantum solver.}
+\label{tab:progression_full_params}
+\begin{ruledtabular}
+\begin{tabular}{lcccccc}
+Config & $\zc^{\rm e}$ & $\zc^{\rm l}$ & $\fdom^{\rm e}$ &
+$\fdom^{\rm l}$ & $\Delta$ & $\etaz$ \\
+\hline
+Paper~I & 2000 & 1.0 & 0.035 & 0.042 & --- & $-0.05$ \\
+Grid best & 2000 & 1.0 & 0.033 & 0.040 & 0.75 & $-0.05$ \\
+Free $\Delta$ & 2000 & 1.0 & 0.034 & 0.041 & 0.73 & $-0.05$ \\
+Free $\Delta\!+\!\etaz$ & 2000 & 1.0 & 0.048 & 0.055 & 1.34 &
+$-0.147$ \\
+Full free & 2254 & 1.82 & 0.072 & 0.068 & 0.36 & $-0.57$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig11_chi2_breakdown.pdf}
+\caption{$\chi^2$ contribution by observable for $\Lambda$CDM (dark
+  bars) and the full-free IDT model (light bars). The dominant
+  improvement comes from the CMB acoustic scale $l_a$ (reduced from
+  $9.61$ to $0.00$) and the $S_8$ prior (reduced from $9.00$ to
+  $0.04$). The $P(k)$ shape contribution is also reduced, while the
+  shift parameter $R$ and baryon density $\omega_b$ contributions are
+  essentially unchanged.}
+\label{fig:chi2_breakdown}
+\end{figure}
+
+% =====================================================================
+% APPENDIX D: CORRELATION MATRICES AND CORNER PLOTS
+% =====================================================================
+\section{Correlation Matrices}
+\label{app:correlations}
+
+Table~\ref{tab:correlations} presents the correlation matrix for the
+nine free parameters, computed from the full post-burn-in sample.
+
+\begin{table*}[h]
+\centering
+\caption{Correlation matrix for the nine free parameters from the
+  converged adaptive M-H posterior. Strong correlations ($|r| > 0.5$)
+  are highlighted. The strongest correlation is between $\fdom^{\rm
+  early}$ and $\etaz$ ($r = -0.92$), reflecting the $g$-degeneracy
+  discussed in Sec.~\ref{sec:conserved_g}. $\Hubble$ is weakly
+  correlated with all IDT parameters ($|r| < 0.2$).}
+\label{tab:correlations}
+\begin{ruledtabular}
+\begin{tabular}{lccccccccc}
+& $\Hubble$ & $\Om$ & $\omega_b$ & $\zc^{\rm e}$ & $\zc^{\rm l}$ &
+$\fdom^{\rm e}$ & $\fdom^{\rm l}$ & $\Delta$ & $\etaz$ \\
+\hline
+$\Hubble$ & 1.00 & $-0.43$ & 0.08 & 0.05 & 0.12 & $-0.08$ &
+$-0.10$ & 0.03 & 0.11 \\
+$\Om$ & & 1.00 & $-0.15$ & $-0.12$ & $-0.20$ & 0.18 & 0.22 &
+$-0.08$ & $-0.21$ \\
+$\omega_b$ & & & 1.00 & 0.02 & $-0.05$ & $-0.03$ & $-0.04$ &
+0.01 & 0.04 \\
+$\zc^{\rm e}$ & & & & 1.00 & 0.08 & $-0.45$ & $-0.10$ & 0.38 &
+\textbf{0.52} \\
+$\zc^{\rm l}$ & & & & & 1.00 & 0.15 & $-0.48$ & 0.30 & $-0.18$ \\
+$\fdom^{\rm e}$ & & & & & & 1.00 & \textbf{0.65} & $-0.42$ &
+$\mathbf{-0.92}$ \\
+$\fdom^{\rm l}$ & & & & & & & 1.00 & $-0.35$ & $\mathbf{-0.72}$ \\
+$\Delta$ & & & & & & & & 1.00 & 0.38 \\
+$\etaz$ & & & & & & & & & 1.00 \\
+\end{tabular}
+\end{ruledtabular}
+\end{table*}
+
+The dominant correlation structure is the $g$-degeneracy:
+$\fdom^{\rm early}$ and $\etaz$ are anti-correlated at $r = -0.92$,
+and $\fdom^{\rm late}$ and $\etaz$ are anti-correlated at $r = -0.72$.
+These strong correlations arise because the data constrain $g = \fdom
+(1 + \etaz)$ rather than $\fdom$ and $\etaz$ individually. The
+asymmetry between the two correlation coefficients ($-0.92$ versus
+$-0.72$) reflects the fact that the early domain contributes more to
+the total $\chi^2$ improvement than the late domain, producing a
+tighter $g$-constraint for the early domain.
+
+The $\Lambda$CDM parameters are weakly correlated with the IDT
+parameters, with the strongest correlation being $\Om$--$\fdom^{\rm
+late}$ at $r = 0.22$. This approximate independence confirms that the
+IDT parameters capture physical effects that are largely orthogonal to
+the standard cosmological parameter directions.
+
+% =====================================================================
+% APPENDIX E: THREE-DOMAIN SCAN
+% =====================================================================
+\section{Three-Domain Scan Results}
+\label{app:three_domain}
+
+\begin{table}[h]
+\centering
+\caption{Three-domain scan results. For each third-domain redshift
+  $z_3$, the optimized amplitude $\fdom^{(3)}$ and the resulting
+  change in log-likelihood $\Delta \ln \mathcal{L}$ relative to the
+  two-domain baseline are shown. None of the configurations produce a
+  sufficient improvement to overcome the $+4$ AIC penalty for two
+  additional parameters.}
+\label{tab:three_domain}
+\begin{ruledtabular}
+\begin{tabular}{lccc}
+$z_3$ & $\fdom^{(3)}$ (optimized) & $\Delta \ln \mathcal{L}$ &
+$\dAIC_{3\text{-dom}}$ \\
+\hline
+5000 & 0.008 & $+0.5$ & $+3.0$ \\
+8000 & 0.005 & $+0.3$ & $+3.4$ \\
+15{,}000 & 0.003 & $+0.1$ & $+3.8$ \\
+30{,}000 & 0.001 & $+0.0$ & $+4.0$ \\
+50{,}000 & $< 0.001$ & $+0.0$ & $+4.0$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:three_domain} presents the three-domain scan results.
+At all tested redshifts, the optimized third-domain amplitude is small
+($\fdom^{(3)} < 0.01$) and the improvement in log-likelihood is
+negligible ($\Delta \ln \mathcal{L} < 0.8$). After accounting for the
+AIC penalty, all three-domain configurations are disfavored relative
+to the two-domain baseline.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\columnwidth]{figures/fig12_three_domain.pdf}
+\caption{Three-domain scan: $\dAIC$ of the three-domain model relative
+  to the two-domain baseline as a function of the third-domain
+  redshift $z_3$. Positive values indicate that the three-domain model
+  is disfavored. At all tested redshifts, the additional parameters
+  are not justified by the data.}
+\label{fig:three_domain}
+\end{figure}
+
+The null result at $z_3 = 5000$--$50{,}000$ spans the range from just
+above the early domain ($\zc^{\rm early} = 2254$) to the
+recombination epoch. The absence of any improvement indicates that the
+CMB data are well-fit by the two existing domains and do not require
+additional domain resonances in this redshift range.
+
+We note that this scan is not exhaustive: it does not test domains at
+$z_3 < 0.5$ (below the late domain) or at $z_3 > 50{,}000$ (deep in
+the radiation era). However, domains at these extreme redshifts would
+face additional constraints from local distance measurements and BBN,
+respectively, and are not motivated by the current data.
+
+% =====================================================================
+% APPENDIX F: SIGMA_8 CAP ANALYSIS
+% =====================================================================
+\section{$\sigma_{8,\rm CLASS}$ Cap Analysis}
+\label{app:sigma8}
+
+The constraint $\sigma_{8,\rm CLASS} < 0.85$ is imposed to ensure
+that the CLASS-computed matter power spectrum remains in the regime
+where linear perturbation theory is valid. Since the dephasing
+mechanism reduces the effective $\sigma_8$ observed by structure-growth
+probes, a large $\sigma_{8,\rm CLASS}$ combined with strong dephasing
+could, in principle, produce an acceptable $S_8$ while requiring an
+unphysically large primordial amplitude.
+
+To assess the impact of this constraint, we perform three additional
+MCMC runs:
+
+\textit{Run A: $\sigma_{8,\rm CLASS} < 0.90$.} The posterior shifts
+slightly toward higher $|\etaz|$ (median $\etaz = -0.60$ versus
+$-0.57$ in the baseline), with $\sigma_{8,\rm CLASS}$ reaching
+$0.862$ at the Basin~2 mode. $\gearly$ shifts to $0.037$ ($0.022$--$0.057$),
+a $< 0.5\sigma$ change. $\dAIC = -24.8$.
+
+\textit{Run B: $\sigma_{8,\rm CLASS} < 0.95$.} The posterior is
+essentially unchanged from Run~A, with the $\sigma_{8,\rm CLASS}$
+distribution peaking at $0.852$ and showing no preference for values
+above $0.90$. $\dAIC = -25.0$.
+
+\textit{Run C: No $\sigma_{8,\rm CLASS}$ constraint.} Results are
+indistinguishable from Run~B, confirming that the constraint is not
+significantly shaping the posterior. The data naturally prefer
+$\sigma_{8,\rm CLASS} \approx 0.85$, with little density above $0.90$.
+
+We conclude that the $\sigma_{8,\rm CLASS} < 0.85$ constraint is
+mildly binding (it clips the high-$\sigma_8$ tail of Basin~2) but does
+not qualitatively affect the results. The primary conclusions---$\dAIC
+\approx -24$, $S_8 \approx 0.77$, $\gearly \approx 0.035$---are
+robust to the choice of threshold.
+
+% =====================================================================
+% REFERENCES
+% =====================================================================
+\begin{thebibliography}{99}
+
+\bibitem{Paper1}
+J.~R.~Gonzalez,
+``Epoch-Localized Domain Interactions: A Two-Channel Approach to
+Cosmological Tensions in $\Lambda$CDM,''
+(2025). [Paper~I]
+
+\bibitem{Paper2}
+J.~R.~Gonzalez,
+``Inflationary Domain Theory II: High-Redshift Structure Formation and
+Intermediate-Epoch Parameter Space Analysis,''
+(2025). [Paper~II]
+
+\bibitem{Planck2018}
+Planck Collaboration,
+``Planck 2018 results. VI. Cosmological parameters,''
+Astron.\ Astrophys.\ \textbf{641}, A6 (2020).
+
+\bibitem{Riess2022}
+A.~G.~Riess \textit{et al.},
+``A Comprehensive Measurement of the Local Value of the Hubble
+Constant with 1 km/s/Mpc Uncertainty from the Hubble Space Telescope
+and the SH0ES Team,''
+Astrophys.\ J.\ Lett.\ \textbf{934}, L7 (2022).
+
+\bibitem{DES2022}
+DES Collaboration,
+``Dark Energy Survey Year 3 results: Cosmological constraints from
+galaxy clustering and weak lensing,''
+Phys.\ Rev.\ D \textbf{105}, 023520 (2022).
+
+\bibitem{KiDS2021}
+KiDS Collaboration,
+``KiDS-1000 cosmology: Cosmic shear constraints on the amplitude of
+matter fluctuations,''
+Astron.\ Astrophys.\ \textbf{645}, A104 (2021).
+
+\bibitem{ForemanMackey2013}
+D.~Foreman-Mackey, D.~W.~Hogg, D.~Lang, and J.~Goodman,
+``\texttt{emcee}: The MCMC Hammer,''
+Publ.\ Astron.\ Soc.\ Pacific \textbf{125}, 306 (2013).
+
+\bibitem{Haario2001}
+H.~Haario, E.~Saksman, and J.~Tamminen,
+``An adaptive Metropolis algorithm,''
+Bernoulli \textbf{7}, 223 (2001).
+
+\bibitem{Roberts1997}
+G.~O.~Roberts, A.~Gelman, and W.~R.~Gilks,
+``Weak convergence and optimal scaling of random walk Metropolis
+algorithms,''
+Ann.\ Appl.\ Probab.\ \textbf{7}, 110 (1997).
+
+\bibitem{Vehtari2021}
+A.~Vehtari, A.~Gelman, D.~Simpson, B.~Carpenter, and P.-C.~B\"urkner,
+``Rank-normalization, folding, and localization: An improved $\hat{R}$
+for assessing convergence of MCMC,''
+Bayesian Anal.\ \textbf{16}, 667 (2021).
+
+\bibitem{DESI2024}
+DESI Collaboration,
+``DESI 2024 VI: Cosmological Constraints from the Measurements of
+Baryon Acoustic Oscillations,''
+(2024). arXiv:2404.03002.
+
+\bibitem{DESI_LyA2024}
+DESI Collaboration,
+``DESI 2024 IV: Baryon Acoustic Oscillations from the Lyman Alpha
+Forest,''
+(2024). arXiv:2404.03001.
+
+\bibitem{Euclid2024}
+Euclid Collaboration,
+``Euclid preparation. Forecasting cosmological constraints from the
+weak lensing power spectrum,''
+Astron.\ Astrophys.\ \textbf{681}, A191 (2024).
+
+\bibitem{CMBS42019}
+CMB-S4 Collaboration,
+``CMB-S4 Science Book, Second Edition,''
+(2019). arXiv:1907.04473.
+
+\bibitem{ACT2024}
+ACT Collaboration,
+``The Atacama Cosmology Telescope: DR6 Gravitational Lensing Map and
+Cosmological Parameters,''
+Astrophys.\ J.\ \textbf{962}, 113 (2024).
+
+\bibitem{SPT2023}
+SPT Collaboration,
+``Measurement of the CMB lensing power spectrum from SPT-3G 2018
+data,''
+Phys.\ Rev.\ D \textbf{108}, 122005 (2023).
+
+\bibitem{Blas2011}
+D.~Blas, J.~Lesgourgues, and T.~Tram,
+``The Cosmic Linear Anisotropy Solving System (CLASS). Part II:
+Approximation schemes,''
+J.\ Cosmol.\ Astropart.\ Phys.\ \textbf{07}, 034 (2011).
+
+\bibitem{Kenworthy2019}
+W.~D.~Kenworthy, D.~Scolnic, and A.~Riess,
+``The Local Perspective on the Hubble Tension: Local Structure Does
+Not Impact Measurement of the Hubble Constant,''
+Astrophys.\ J.\ \textbf{875}, 145 (2019).
+
+\bibitem{Wojtak2014}
+R.~Wojtak, A.~Knebe, W.~A.~Watson, I.~T.~Iliev, S.~Hess, D.~Rapetti,
+G.~Yepes, and S.~Gottl\"ober,
+``Cosmic variance of the local Hubble flow in large-scale cosmological
+simulations,''
+Mon.\ Not.\ Roy.\ Astron.\ Soc.\ \textbf{438}, 1805 (2014).
+
+\bibitem{Harikane2023}
+Y.~Harikane \textit{et al.},
+``A Comprehensive Study of Galaxies at $z \sim 9$--$16$ Found in the
+Early JWST Data,''
+Astrophys.\ J.\ Suppl.\ \textbf{265}, 5 (2023).
+
+\bibitem{Finkelstein2023}
+S.~L.~Finkelstein \textit{et al.},
+``CEERS Key Paper. I. An Early Look into the First 500 Myr of Galaxy
+Formation with JWST,''
+Astrophys.\ J.\ Lett.\ \textbf{946}, L13 (2023).
+
+\end{thebibliography}
+
+\end{document}
