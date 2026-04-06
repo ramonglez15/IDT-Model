@@ -1,6 +1,6 @@
 # Inflationary Domain Theory (IDT)
 
-**Epoch-localized domain interactions as a two-channel approach to cosmological tensions in LCDM**
+**Epoch-localized domain interactions as a multi-channel approach to cosmological tensions in LCDM**
 
 Jose Ramon Gonzalez | Independent Researcher
 
@@ -8,86 +8,99 @@ Jose Ramon Gonzalez | Independent Researcher
 
 ## Overview
 
-IDT is a minimal effective extension of LCDM in which epoch-localized energy density contributions modify the expansion history and structure growth at specific cosmological epochs. The framework introduces a novel **effective Friedmann-Poisson decoupling**: domain contributions modify the background expansion rate without correspondingly enhancing local gravitational clustering, providing independent channels for addressing the H0 and S8 tensions.
+IDT is a minimal effective extension of LCDM in which epoch-localized energy density contributions modify the expansion history and structure growth at specific cosmological epochs. The framework introduces **gravitational dephasing**: during domain resonance, the effective gravitational coupling is partially cancelled — analogous to the force balance at a Lagrange point — suppressing late-time structure growth while preserving the CMB acoustic scale.
 
-### Key Result
+### Paper III Key Results (converged, all R-hat < 1.1)
 
-With only **2 extra parameters** beyond LCDM:
+| | LCDM | Paper I | Paper III |
+|---|------|---------|-----------|
+| H0 (km/s/Mpc) | 67.4 | 68.7 | 68.1 |
+| sigma8 (dephased) | 0.811 | 0.809 | 0.745 |
+| S8 tension | 3.1 sigma | ~2.8 sigma | **0.2 sigma** |
+| l_a tension | 3.1 sigma | 0.3 sigma | **0.0 sigma** |
+| Extra params | 0 | 2 | 6 |
+| Delta AIC | 0 | -8.1 | **-24** |
 
-| | LCDM | IDT |
-|---|------|-----|
-| H0 (km/s/Mpc) | 67.4 | 68.7 |
-| sigma8 | 0.811 | 0.824 |
-| l_a tension | 3.1 sigma | 0.3 sigma |
-| Delta AIC | 0 | **-8.1** |
+**Statistically preferred over LCDM** (Delta AIC = -24 under compressed Planck + P(k) constraints).
 
-**Strongly preferred over LCDM** (Delta AIC = -8.1).
+### Three Advances in Paper III
 
-### Two-Domain Architecture
+1. **Phase quantum formalism**: Domain widths derived from a single parameter Delta, replacing hand-chosen values
+2. **Conserved observable**: g = f_dom x (1 + eta0) = 0.035 +/- 0.016 — the net dephasing impact, analogous to Omega_m h^2 in CMB cosmology
+3. **Converged posteriors**: Adaptive Metropolis-Hastings with 4 independent chains, all Gelman-Rubin R-hat < 1.1
 
-- **Early domain** (z ~ 2000): Shifts the sound horizon r_d, raising the inferred H0. Does not affect sigma8.
-- **Late domain** (z ~ 1): Modifies effective gravitational coupling G_eff via dephasing mechanism, suppressing structure growth. Does not affect r_d.
+## Publications
 
-The two channels operate independently -- a structural feature of the epoch-separation, not a result of parameter tuning.
+| Paper | Title | Status | Link |
+|-------|-------|--------|------|
+| I | Epoch-Localized Domain Interactions | Published | [Zenodo](https://zenodo.org/records/15007041) |
+| II | High-Redshift Structure Formation and eta0 Parameter Space | Published | [Zenodo](https://zenodo.org/records/15191295) |
+| III | Phase Resonance, Gravitational Dephasing, and the Conserved Net Impact Observable | Published | [Zenodo](https://zenodo.org/records/19446031) |
+
+## Two-Domain Architecture
+
+- **Early domain** (z_c ~ 2250): Modifies expansion history near matter-radiation transition. Drives the JWST high-z galaxy prediction (20-50% enhancement at z = 10-15).
+- **Late domain** (z_c ~ 1.8): Modifies effective gravitational coupling G_eff via dephasing, suppressing structure growth. Reduces S8 from 3 sigma to 0.2 sigma tension.
+
+The dephasing parameter eta0 = -0.57 produces behavior analogous to a gravitational Lagrange point: partial cancellation from competing domain influences.
 
 ## Repository Structure
 
 ```
 IDT-Model/
-|-- src/                    Core IDT module and paper
-|   |-- IDT_Paper1.tex      Complete paper (PRD format)
-|   |-- figures/             Publication figures (PDF + PNG)
+|-- src/                    Core IDT module and papers
+|   |-- IDT_Paper1.tex      Paper I (PRD format)
+|   |-- IDT_Paper3.tex      Paper III (PRD format)
+|   |-- IDT_Paper3_Outline.md  Paper III outline and language rules
+|   |-- desi_dr1_bao.py     DESI DR1 BAO data module
+|   |-- figures/             Publication figures
 |   |-- idt_domain.py        IDTDomain, IDTModel classes
 |   |-- cosmology_base.py    LCDM baseline functions
-|   |-- class_integration.py CLASS integration paths
-|   |-- test_idt_standalone.py  Validation suite (no CLASS needed)
-|   +-- generate_figures.py  Paper figure generation
+|   +-- class_integration.py CLASS integration paths
 |
-|-- analysis/               Working scripts and diagnostics
-|   |-- idt_mcmc_*.py        MCMC campaigns (parameter scans, robustness)
-|   |-- STEERING_MEMO.md     Research steering document
-|   |-- DERIVATION_NOTES.md  G_eff derivation from first principles
-|   +-- *.png                Diagnostic plots
+|-- analysis/               MCMC scripts and diagnostics
+|   |-- idt_mh_adaptive.py   Adaptive M-H sampler (Paper III primary)
+|   |-- idt_emcee_*.py       emcee ensemble samplers
+|   |-- idt_find_map.py      MAP optimizer
+|   |-- chain_diagnostics.py Chain analysis and convergence
+|   |-- three_domain_test.py Third domain scan (null result)
+|   |-- sigma8_cap_scan.py   sigma8_CLASS constraint analysis
+|   |-- bao_desi_comparison.py  SDSS vs DESI BAO comparison
+|   +-- generate_paper3_figures.py  All 12 Paper III figures
 |
 |-- archive/                Prior implementations (reference)
 |   |-- class/               Modified CLASS v3.3.0 with IDT domains
-|   |-- CLASS-IDT*/          Earlier C implementations
 |   +-- universe/            Theory documents
 |
-+-- .gitignore
++-- CLAUDE.md               Project configuration
 ```
 
 ## Modified CLASS
 
-The CLASS Boltzmann solver (v3.3.0) has been modified to support:
+CLASS v3.3.0 modified to support:
 
 - **Up to 5 simultaneous localized log-normal domains** in the background
-- **Dephasing G_eff modification** in the perturbation equations
-- Parameters read from .ini files: `f_dom_idt_N`, `z_c_idt_N`, `sigma_ln_idt_N`, `eta0_idt`
-
-Modified files: `include/background.h`, `source/background.c`, `source/input.c`, `source/perturbations.c`
+- **Dephasing G_eff modification** in perturbation equations
+- Parameters: `f_dom_idt_N`, `z_c_idt_N`, `sigma_ln_idt_N`, `eta0_idt`
 
 ## Quick Start
 
 ```bash
-# Run standalone validation (no CLASS needed)
-cd src
-python test_idt_standalone.py
+# Build CLASS with IDT modifications
+cd archive/class && make && cd python && python setup.py build_ext --inplace
 
-# Generate paper figures
-python generate_figures.py
+# Run the adaptive M-H sampler (Paper III)
+python analysis/idt_mh_adaptive.py
+
+# Generate Paper III figures
+python analysis/generate_paper3_figures.py
 ```
 
 ## Requirements
 
 - Python 3.11+
-- numpy, scipy, matplotlib
+- numpy, scipy, matplotlib, emcee
 - CLASS v3.3.0 (included in archive/class/, with IDT modifications)
-- classy Python bindings (build with `cd archive/class && make && cd python && python setup.py build_ext --inplace`)
-
-## Paper
-
-The paper "Epoch-Localized Domain Interactions: A Two-Channel Approach to Cosmological Tensions in LCDM" is in `src/IDT_Paper1.tex` with figures in `src/figures/`. Compile with pdflatex or upload to Overleaf.
 
 ## License
 
