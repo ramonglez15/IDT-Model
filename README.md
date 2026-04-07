@@ -33,8 +33,8 @@ IDT is a minimal effective extension of LCDM in which epoch-localized energy den
 
 | Paper | Title | Status | Link |
 |-------|-------|--------|------|
-| I | Epoch-Localized Domain Interactions | Published | [Zenodo](https://zenodo.org/records/15007041) |
-| II | High-Redshift Structure Formation and eta0 Parameter Space | Published | [Zenodo](https://zenodo.org/records/15191295) |
+| I | Epoch-Localized Domain Interactions | Published | [Zenodo](https://zenodo.org/records/19224546) |
+| II | High-Redshift Structure Formation and eta0 Parameter Space | Published | [Zenodo](https://zenodo.org/records/19268803) |
 | III | Phase Resonance, Gravitational Dephasing, and the Conserved Net Impact Observable | Published | [Zenodo](https://zenodo.org/records/19446031) |
 
 ## Two-Domain Architecture
